@@ -28,8 +28,6 @@ namespace Programmer.Game_Engen.Patton_Reginishen
             Point start = Drawing[0];
             Point slut = Drawing[Drawing.Count - 1];
             double afstand = Math.Sqrt(Math.Pow(start.X - slut.X, 2) + Math.Pow(start.Y - slut.Y, 2));
-            
         }
-        
     }
 }

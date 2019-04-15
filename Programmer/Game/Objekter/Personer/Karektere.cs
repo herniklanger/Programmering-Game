@@ -4,86 +4,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using Game.Game.Objekter;
-using Game.Game_Engen;
-using Game.Game.Objekter.Movements;
-namespace Game.Game.Personer
+
+namespace Programmer.Game.Objekter.Personer
 {
     abstract class Karektere : Ithem
     {
-        private Image[] Person;
-        public Stack<Ithem> PuseableToHit = new Stack<Ithem>();
-        internal List<Movement> Mooment = new List<Movement>();
-
+        private Image[] Person= new Image[1];
         public int notAbleToMuve = 0;
-        public bool HaveMuve { get; private set; }
-        public double MuvmentSpeed { get; private set; }
-        public Karektere(String name, int x, int y, double speed) : base(name, x, y, 20, 20, 100,true)
+        public int Muvment { get; private set; }
+        private int speed; 
+        public Int16 Direction { get; set; }
+        public Karektere(String name, int x, int y, int speed) : base(name, x, y, 100,true)
         {
-            MuvmentSpeed = speed;
-            Person = new Image[1];
-        }
-        public void updateSpeed(double speed)
-        {
-            MuvmentSpeed = speed;
-        }
-        public override void Draw(Graphics g, int screenX, int screenY)
-        {
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Black)), (int)X - screenX, (int)Y - screenY, Width, Height);
-            while (PuseableToHit.Count > 0)
-            {
-                Console.WriteLine(PuseableToHit.Pop());
-            }
+            this.speed = speed;
         }
         public override Karektere GetKareakter()
         {
             return this;
         }
-        public override void AddPusiabelToHit(Ithem I)
+        public virtual Player GetPlayer()
         {
-            PuseableToHit.Push(I);
+            return null;
         }
-        public override void Muve()
+        public virtual void Muve(ref int muve)
         {
-            if(Flying.Count > 0)
+            if(muve%speed ==0)
             {
-                for(int i = Flying.Count - 1; i >= 0;i--)
+                Console.WriteLine("Direction is " + Direction);
+                switch(Direction)
                 {
-                    Flying[i].Muve(this);
-                    if (Flying[i].helf <= 0)
-                    {
-                        Flying.RemoveAt(i);
-                    }
+                    case 1:
+                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X + 1,Y,this))
+                        {
+                            X++;
+                        }
+                        break;
+                    case 2:
+                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X, Y+1, this))
+                        {
+                            Y++;
+                        }
+                        break;
+                    case 3:
+                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X , Y- 1, this))
+                        {
+                            Y--;
+                        }
+                        break;
+                    case 4:
+                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X - 1, Y, this))
+                        {
+                            X--;
+                        }
+                        break;
                 }
-                for (int i = Mooment.Count - 1; i >= 0; i--)
-                {
-                    Mooment[i].helf--;
-                    if (Mooment[i].helf <= 0)
-                    {
-                        Mooment.RemoveAt(i);
-                    }
-                }
-            }
-            else
-            {
-                for (int i = Mooment.Count-1; i >= 0; i--)
-                {
-                    Mooment[i].Muve(this);
-                    if (Mooment[i].helf <= 0)
-                    {
-                        Mooment.RemoveAt(i);
-                    }
-                }
-            }
-            for (int i = Pussing.Count - 1; i >= 0; i--)
-            {
-                Pussing[i].Muve(this);
-                if (Pussing[i].helf <= 0)
-                {
-                    Pussing.RemoveAt(i);
-                }
+                Direction = 0;
             }
         }
-        public abstract Player GetPlayer();
     }
 }

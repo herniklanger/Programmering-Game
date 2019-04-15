@@ -7,33 +7,44 @@ using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
 using Programmer.Game.Objekter;
+using Programmer.Game.Objekter.Personer;
 
 namespace Programmer.Game_Engen
 {
     class Engen2D
     {
-        private static Engen2D engen2D;
         private Thread game;
-        private bool gameIsRinning = false;
-        private int mouseX = 0, mouseY = 0;
+        private static Engen2D engen2D;
+
+        private Player player;
         public readonly object objektLock = new object();
         private List<Ithem> objekter = new List<Ithem>();
+
         public bool[] keyStrouck;
+        private bool gameIsRinning = false;
         public bool mouseLeft = false;
         public bool mouseLeftPrivias = false;
         public bool mouseRith = false;
+
         public int ScreenX { get; private set; }
         public int ScreenY { get; private set; }
         public int Width { get; private set; }
         public int Heith { get; private set; }
+        private int tickCount = 0;
+        private int Grid;
+
         //public Hotbar hotbar;
         private Engen2D(int width, int heith)
         {
             keyStrouck = new bool[256];
             Width = width;
             Heith = heith;
+            Grid= Width / 50;
+            player = new Player("Henrik",0,0);
+            objekter.Add(player);
             gameIsRinning = true;
             game = new Thread(Game);
+            game.IsBackground = true;
             Random r = new Random();
             game.Start();
         }
@@ -49,10 +60,14 @@ namespace Programmer.Game_Engen
         {
             Width = width;
             Heith = heith;
+            Grid = Width / 50;
         }
         public void Garphish(Graphics g)
         {
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Black)), (Width / 2) - 50, (Heith / 2) - 50, 120, 120);
+            for(int i =0;i<objekter.Count;i++ )
+            {
+                objekter[i].Draw(g, ScreenX, ScreenY, Grid, Grid);
+            }
         }
         private static long nanoTime()
         {
@@ -61,17 +76,17 @@ namespace Programmer.Game_Engen
             nano *= 100L;
             return nano;
         }
+        long currentTime = 0;
         public void Game()
         {
             int frames = 0;
             double unprocessedSeconds = 0;
             long previousTime = nanoTime();
             double secoundsPerTick = 1 / 60.0;
-            int tickCount = 0;
             bool ticked = false;
             while (gameIsRinning)
             {
-                long currentTime = nanoTime();
+                currentTime = nanoTime();
                 long passedTime = currentTime - previousTime;
                 previousTime = currentTime;
                 unprocessedSeconds += passedTime / 1000000000.0;
@@ -95,20 +110,53 @@ namespace Programmer.Game_Engen
                 }
                 render();
                 frames++;
+                Thread.Sleep(1);
             }
         }
+        private long MumentBuffer =0;
         public void render()
         {
-            
+            ScreenX += player.X + ScreenX > 3+Width/(Grid * 2) ? -1 : 0;
+            ScreenX += player.X + ScreenX < -3+Width / (Grid * 2) ? 1 : 0;
+            ScreenY += player.Y + ScreenY > 3+Heith / (Grid * 2) ? -1 : 0;
+            ScreenY += player.Y + ScreenY < -3+Heith / (Grid * 2)? 1 : 0;
+            if(keyStrouck[65]^keyStrouck[87]^keyStrouck[68]^keyStrouck[83] && MumentBuffer+100000000 < currentTime)
+            {
+                player.Direction = (Int16)(keyStrouck[83] ? 2: player.Direction);
+                player.Direction = (Int16)(keyStrouck[65] ? 4: player.Direction);
+                player.Direction = (Int16)(keyStrouck[87] ? 3: player.Direction);
+                player.Direction = (Int16)(keyStrouck[68] ? 1: player.Direction);
+                MumentBuffer = currentTime;
+            }
         }
         public void Animation()
         {
-            
+            //Console.WriteLine(ScreenX+", "+ScreenY);
+            lock(objektLock)
+            {
+                for (int i = 0; i < objekter.Count;i++)
+                {
+                    if(objekter[i].GetKareakter() != null)
+                    {
+                        objekter[i].GetKareakter().Muve(ref tickCount);
+                    }
+                }
+            }
+        }
+        public bool IsThisfealtEmty(int x,int y)
+        {
+            foreach(Ithem ithem in objekter)
+            {
+                if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y&& ithem.Y + ithem.Heith > y)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public bool IthemInNextSpot(int x,int y)
         {
             return true;
         }
-
     }
 }
