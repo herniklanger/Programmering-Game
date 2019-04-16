@@ -14,7 +14,7 @@ namespace Programmer.Game.Objekter.Personer
         public int Muvment { get; private set; }
         private int speed; 
         public Int16 Direction { get; set; }
-        public Karektere(String name, int x, int y, int speed) : base(name, x, y, 100,true)
+        public Karektere(String name, int x, int y, int speed, int width = 1, int height = 1) : base(name, x, y, width, height)
         {
             this.speed = speed;
         }
@@ -31,32 +31,38 @@ namespace Programmer.Game.Objekter.Personer
             if(muve%speed ==0)
             {
                 Console.WriteLine("Direction is " + Direction);
+                Ithem head =null;
                 switch(Direction)
                 {
                     case 1:
-                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X + 1,Y,this))
+                        
+                        if ((head=Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X + 1,Y))==null)
                         {
                             X++;
                         }
                         break;
                     case 2:
-                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X, Y+1, this))
+                        if ((head = Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X, Y+1)) == null)
                         {
                             Y++;
                         }
                         break;
                     case 3:
-                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X , Y- 1, this))
+                        if ((head = Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X , Y- 1)) == null)
                         {
                             Y--;
                         }
                         break;
                     case 4:
-                        if (!Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X - 1, Y, this))
+                        if ((head = Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X - 1, Y)) == null)
                         {
                             X--;
                         }
                         break;
+                }
+                if (head != null)
+                {
+                    head.Event(this);
                 }
                 Direction = 0;
             }

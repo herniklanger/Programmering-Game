@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
@@ -42,6 +39,7 @@ namespace Programmer.Game_Engen
             Grid= Width / 50;
             player = new Player("Henrik",0,0);
             objekter.Add(player);
+            objekter.Add(new House("unknown",10,10,5,5));
             gameIsRinning = true;
             game = new Thread(Game);
             game.IsBackground = true;
@@ -143,16 +141,16 @@ namespace Programmer.Game_Engen
                 }
             }
         }
-        public bool IsThisfealtEmty(int x,int y)
+        public Ithem IsThisfealtEmty(int x,int y)
         {
             foreach(Ithem ithem in objekter)
             {
                 if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y&& ithem.Y + ithem.Heith > y)
                 {
-                    return true;
+                    return ithem;
                 }
             }
-            return false;
+            return null;
         }
         public bool IthemInNextSpot(int x,int y)
         {
