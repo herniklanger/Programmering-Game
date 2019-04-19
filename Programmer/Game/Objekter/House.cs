@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Programmer.Game.Objekter
 {
@@ -10,6 +11,14 @@ namespace Programmer.Game.Objekter
     {
         public House(string name, int LocationX, int LocationY, int width, int height) : base(name, LocationX, LocationY, width, height)
         {
+        }
+        public virtual void Event(Ithem Kereatore)
+        {
+             
+        }
+        public override string Save()
+        {
+            return $"{Name}, {X}, {Y}, {Width}, {Heith}";
         }
     }
 }

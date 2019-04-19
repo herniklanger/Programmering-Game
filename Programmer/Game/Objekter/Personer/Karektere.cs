@@ -22,6 +22,10 @@ namespace Programmer.Game.Objekter.Personer
         {
             return this;
         }
+        public override string Save()
+        {
+            return "";
+        }
         public virtual Player GetPlayer()
         {
             return null;
@@ -35,7 +39,6 @@ namespace Programmer.Game.Objekter.Personer
                 switch(Direction)
                 {
                     case 1:
-                        
                         if ((head=Game_Engen.Engen2D.Engenen2D().IsThisfealtEmty(X + 1,Y))==null)
                         {
                             X++;

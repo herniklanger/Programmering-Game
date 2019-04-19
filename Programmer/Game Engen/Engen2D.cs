@@ -1,50 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
-using System.Diagnostics;
 using Programmer.Game.Objekter;
 using Programmer.Game.Objekter.Personer;
 
 namespace Programmer.Game_Engen
 {
-    class Engen2D
+    class Engen2D:Engen
     {
-        private Thread game;
         private static Engen2D engen2D;
-
         private Player player;
-        public readonly object objektLock = new object();
-        private List<Ithem> objekter = new List<Ithem>();
-
-        public bool[] keyStrouck;
-        private bool gameIsRinning = false;
-        public bool mouseLeft = false;
         public bool mouseLeftPrivias = false;
-        public bool mouseRith = false;
-
-        public int ScreenX { get; private set; }
-        public int ScreenY { get; private set; }
-        public int Width { get; private set; }
-        public int Heith { get; private set; }
         private int tickCount = 0;
-        private int Grid;
-
+        long currentTime = 0;
         //public Hotbar hotbar;
-        private Engen2D(int width, int heith)
+        private Engen2D(int width, int heith):base(width,heith)
         {
-            keyStrouck = new bool[256];
-            Width = width;
-            Heith = heith;
             Grid= Width / 50;
             player = new Player("Henrik",0,0);
             objekter.Add(player);
             objekter.Add(new House("unknown",10,10,5,5));
             gameIsRinning = true;
-            game = new Thread(Game);
-            game.IsBackground = true;
             Random r = new Random();
-            game.Start();
         }
         public static Engen2D Engenen2D(int width = 600, int heith = 800)
         {
@@ -54,28 +31,14 @@ namespace Programmer.Game_Engen
             }
             return engen2D;
         }
-        public void upDateSize(int width, int heith)
-        {
-            Width = width;
-            Heith = heith;
-            Grid = Width / 50;
-        }
-        public void Garphish(Graphics g)
+        public override void Garphish(Graphics g)
         {
             for(int i =0;i<objekter.Count;i++ )
             {
                 objekter[i].Draw(g, ScreenX, ScreenY, Grid, Grid);
             }
         }
-        private static long nanoTime()
-        {
-            long nano = 10000L * Stopwatch.GetTimestamp();
-            nano /= TimeSpan.TicksPerMillisecond;
-            nano *= 100L;
-            return nano;
-        }
-        long currentTime = 0;
-        public void Game()
+        internal override void Game()
         {
             int frames = 0;
             double unprocessedSeconds = 0;
@@ -127,7 +90,7 @@ namespace Programmer.Game_Engen
                 MumentBuffer = currentTime;
             }
         }
-        public void Animation()
+        private void Animation()
         {
             //Console.WriteLine(ScreenX+", "+ScreenY);
             lock(objektLock)
@@ -141,7 +104,7 @@ namespace Programmer.Game_Engen
                 }
             }
         }
-        public Ithem IsThisfealtEmty(int x,int y)
+        public override Ithem IsThisfealtEmty(int x,int y)
         {
             foreach(Ithem ithem in objekter)
             {
@@ -154,7 +117,14 @@ namespace Programmer.Game_Engen
         }
         public bool IthemInNextSpot(int x,int y)
         {
-            return true;
+            foreach (Ithem ithem in objekter)
+            {
+                if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y && ithem.Y + ithem.Heith > y)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

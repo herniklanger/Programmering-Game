@@ -13,16 +13,19 @@ namespace Programmer
 {
     public partial class Form1 : Form
     {
-        Engen2D game;
-        public int museX = 0, museY = 0;
+        Engen game;
 
         public Form1()
         {
+            #if DEBUG
+            game = WorldCreader.Instans(Width, Height);
+            #else
+            game = Engen2D.Engenen2D(Width, Height);
+            #endif
             InitializeComponent();
             GameTime.Interval = (1000 / 60);
             GameTime.Tick += Timer;
             GameTime.Start();
-            game = Engen2D.Engenen2D(Width, Height);
         }
         private void Timer(object sender, EventArgs e)
         {
@@ -37,14 +40,12 @@ namespace Programmer
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.KeyValue + ", " + e.KeyCode);
-            
+            Console.WriteLine("test");
             game.keyStrouck[e.KeyValue] = true;
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             game.keyStrouck[e.KeyValue] = false;
-
-
         }
         
         private void timer1_Tick(object sender, EventArgs e)
@@ -57,13 +58,38 @@ namespace Programmer
 
         }
 
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                Console.WriteLine("L");
+                game.mouseLeft = true;
+                game.MouseX = e.X;
+                game.MouseY = e.Y;
+            }else if(e.Button == MouseButtons.Right)
+            {
+                Console.WriteLine("R");
+                game.mouseRith = true;
+                game.MouseX = e.X;
+                game.MouseY = e.Y;
+            }
+        }
+
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                game.mouseLeft = false;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                game.mouseRith = false;
+            }
+        }
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (game.mouseRith)
-            {
-                museX = e.X;
-                museY = e.Y;
-            }
+            game.MouseX = e.X;
+            game.MouseY = e.Y;
         }
     }
 }
