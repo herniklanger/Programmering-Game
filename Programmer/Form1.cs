@@ -14,6 +14,7 @@ namespace Programmer
     public partial class Form1 : Form
     {
         Engen game;
+        //dette er en test
 
         public Form1()
         {
@@ -62,7 +63,6 @@ namespace Programmer
         {
             if(e.Button == MouseButtons.Left)
             {
-                Console.WriteLine("L");
                 game.mouseLeft = true;
                 game.MouseX = e.X;
                 game.MouseY = e.Y;

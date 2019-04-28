@@ -21,7 +21,7 @@ namespace Programmer.Game_Engen
         internal bool gameIsRinning = false;
         public bool mouseLeft = false;
         public bool mouseRith = false;
-        internal int Grid;
+        public int Grid { get; internal set; }
         internal List<Ithem> objekter = new List<Ithem>(); internal readonly object objektLock = new object();
         private Thread game;
         public Engen(int width, int heith)

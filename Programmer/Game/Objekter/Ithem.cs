@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using Programmer.Game.Objekter.Personer;
+using System;
 using System.Drawing;
-using Programmer.Game.Objekter.Personer;
 namespace Programmer.Game.Objekter
 {
     abstract class Ithem
     {
+        int IThemID;
         private Image Person;
         public int X { get; internal set; }
         public int Y { get; internal set; }
@@ -16,7 +13,7 @@ namespace Programmer.Game.Objekter
         public int Heith { get; internal set; }
         public String Name { get; internal set; }
         public int RunMument { get; set; }
-        public Ithem(String name,int LocationX,int LocationY,int width =1,int height=1)
+        public Ithem(String name, int LocationX, int LocationY, int width = 1, int height = 1)
         {
             X = LocationX;
             Y = LocationY;
@@ -34,13 +31,13 @@ namespace Programmer.Game.Objekter
         {
             return null;
         }
-        public virtual void Event(Ithem Kereatore)
+        public virtual void Event(Karektere Kereatore, int type)
         {
 
         }
-        public virtual void Draw(Graphics g,int screenX,int screenY,int GridWidth,int GridtHeith)
+        public virtual void Draw(Graphics g, int screenX, int screenY, int GridWidth, int GridtHeith)
         {
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth*Width, GridtHeith*Width);
+            g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Width);
         }
         public abstract string Save();
     }

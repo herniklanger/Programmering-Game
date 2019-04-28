@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using Programmer.Game.Tasks;
 
 namespace Programmer.Game.Objekter.Personer
 {
@@ -11,12 +11,17 @@ namespace Programmer.Game.Objekter.Personer
     {
         private Image[] Person= new Image[1];
         public int notAbleToMuve = 0;
+        int[] Houses;
+        int[] Worck;
+        List<Task> task = new List<Task>();
         public int Muvment { get; private set; }
         private int speed; 
         public Int16 Direction { get; set; }
-        public Karektere(String name, int x, int y, int speed, int width = 1, int height = 1) : base(name, x, y, width, height)
+        public Karektere(String name, int x, int y, int speed,int[] Houses,int[] WorkPlace) : base(name, x, y)
         {
             this.speed = speed;
+            this.Houses = Houses;
+            Worck = WorkPlace;
         }
         public override Karektere GetKareakter()
         {
@@ -65,7 +70,7 @@ namespace Programmer.Game.Objekter.Personer
                 }
                 if (head != null)
                 {
-                    head.Event(this);
+                    head.Event(this, 0);
                 }
                 Direction = 0;
             }

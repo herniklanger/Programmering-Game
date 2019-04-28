@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Threading;
 using Programmer.Game.Objekter;
 
 namespace Programmer.Game_Engen
 {
     class WorldCreader : Engen
     {
+        Form2 selectore;
         private static WorldCreader instans;
         private WorldCreader(int width, int heith) : base(width, heith)
         {
-            
+            selectore = new Form2();
+            selectore.Show();
         }
         public static WorldCreader Instans(int width = 600, int heith = 800)
         {
@@ -47,9 +50,19 @@ namespace Programmer.Game_Engen
                 if (LeftClik && !mouseLeft)
                 {
                     Console.WriteLine("TryToPlace");
-                    Place(new House("test",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
+                    switch (selectore.Ithems.Invoke(selectore.GetSelected))
+                    {
+                        case "Store":
+                            Console.WriteLine("Store Plaest");
+                            break;
+                        default:
+                            Console.WriteLine("Dette Ithem er ikke kendet");
+                            break;
+                    }
+                    //Place(new House("House",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
                 }
                 LeftClik = mouseLeft;
+                Thread.Sleep(1);
             }
         }
         public void Place(Ithem ithem)

@@ -17,7 +17,7 @@ namespace Programmer.Game_Engen
         private Engen2D(int width, int heith):base(width,heith)
         {
             Grid= Width / 50;
-            player = new Player("Henrik",0,0);
+            player = new Player("Henrik",0,0,null,null);
             objekter.Add(player);
             objekter.Add(new House("unknown",10,10,5,5));
             gameIsRinning = true;
