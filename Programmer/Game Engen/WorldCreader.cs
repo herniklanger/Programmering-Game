@@ -8,6 +8,7 @@ namespace Programmer.Game_Engen
 {
     class WorldCreader : Engen
     {
+        public static Form1 form;
         Form2 selectore;
         private static WorldCreader instans;
         private WorldCreader(int width, int heith) : base(width, heith)
@@ -15,8 +16,9 @@ namespace Programmer.Game_Engen
             selectore = new Form2();
             selectore.Show();
         }
-        public static WorldCreader Instans(int width = 600, int heith = 800)
+        public static WorldCreader Instans(Form1 f,int width = 600, int heith = 800)
         {
+            form = f;
             if (instans == null)
             {
                 instans = new WorldCreader(width, heith);
@@ -25,10 +27,15 @@ namespace Programmer.Game_Engen
         }
         public override void Garphish(Graphics g)
         {
-            g.DrawRectangle(new Pen (new SolidBrush(Color.FromArgb(127,255,0,0))), (Grid==0?0:MouseX / Grid) * Grid, (Grid == 0 ? 0 : MouseY / Grid) * Grid, 6 * Grid, 2 * Grid);
-            foreach (Ithem i in objekter)
+            g.DrawRectangle(new Pen(Color.Black),0,0,20,20);
+            g.FillPolygon(new SolidBrush(Color.LightGreen), new Point[] { new Point(5, 5), new Point(5, 15), new Point(15, 10) });
+            selectore.DrawSelected(g, (Grid == 0 ? 0 : MouseX / Grid)-1, (Grid == 0 ? 0 : MouseY / Grid)-1,Grid);
+            lock (objektLock)
             {
-                i.Draw(g, ScreenX, ScreenY, Grid, Grid);
+                foreach (Ithem i in objekter)
+                {
+                    i.Draw(g, ScreenX, ScreenY, Grid, Grid);
+                }
             }
         }
         public override Ithem IsThisfealtEmty(int x, int y)
@@ -49,17 +56,22 @@ namespace Programmer.Game_Engen
             {
                 if (LeftClik && !mouseLeft)
                 {
-                    Console.WriteLine("TryToPlace");
-                    switch (selectore.Ithems.Invoke(selectore.GetSelected))
+                    if (MouseX >= 0 && MouseX < 20 && MouseY >= 0 && MouseY < 20)
                     {
-                        case "Store":
-                            Console.WriteLine("Store Plaest");
-                            break;
-                        default:
-                            Console.WriteLine("Dette Ithem er ikke kendet");
-                            break;
+                        form.Game();
+                    }else
+                    {
+                        lock (objektLock)
+                        {
+                            Console.WriteLine("TryToPlace");
+                            object place = selectore.GetIthem((Grid == 0 ? 0 : MouseX / Grid), (Grid == 0 ? 0 : MouseY / Grid));
+                            if(place != null)
+                            {
+                                objekter.Add((Ithem)place);
+                            }
+                            //Place(new House("House",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
+                        }
                     }
-                    //Place(new House("House",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
                 }
                 LeftClik = mouseLeft;
                 Thread.Sleep(1);

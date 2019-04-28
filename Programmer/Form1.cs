@@ -14,12 +14,15 @@ namespace Programmer
     public partial class Form1 : Form
     {
         Engen game;
+        public delegate object StartSpil();
+        public StartSpil Game;
         //dette er en test
 
         public Form1()
         {
             #if DEBUG
-            game = WorldCreader.Instans(Width, Height);
+            game = WorldCreader.Instans(this,Width, Height);
+            Game = () => game = Game_Engen.Engen2D.Engenen2D(Width, Height);
             #else
             game = Engen2D.Engenen2D(Width, Height);
             #endif
@@ -40,25 +43,14 @@ namespace Programmer
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.KeyValue + ", " + e.KeyCode);
-            Console.WriteLine("test");
+        //    Console.WriteLine(e.KeyValue + ", " + e.KeyCode);
+        //    Console.WriteLine("test");
             game.keyStrouck[e.KeyValue] = true;
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             game.keyStrouck[e.KeyValue] = false;
         }
-        
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void GameTime_Tick(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -74,7 +66,6 @@ namespace Programmer
                 game.MouseY = e.Y;
             }
         }
-
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

@@ -29,7 +29,17 @@ namespace Programmer.Game.Objekter.Personer
         }
         public override string Save()
         {
-            return "";
+            string save = $"{Name}, {X},{Y},{speed}, {{";
+            foreach(int hus in Houses)
+            {
+                save += hus +", ";
+            }
+            save = save.Remove(save.Length - 2) + "}, {";
+            foreach(int work in Worck)
+            {
+                save += work + ", ";
+            }
+            return save.Remove(save.Length - 2) + "}";
         }
         public virtual Player GetPlayer()
         {

@@ -20,5 +20,9 @@ namespace Programmer.Game.Objekter
         {
             return $"{Name}, {X}, {Y}, {Width}, {Heith}";
         }
+        public override Ithem Copy()
+        {
+            return new House(Name, 0, 0, Width, Heith);
+        }
     }
 }

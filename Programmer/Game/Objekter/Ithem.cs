@@ -37,8 +37,9 @@ namespace Programmer.Game.Objekter
         }
         public virtual void Draw(Graphics g, int screenX, int screenY, int GridWidth, int GridtHeith)
         {
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Width);
+            g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Heith);
         }
         public abstract string Save();
+        public abstract Ithem Copy();
     }
 }

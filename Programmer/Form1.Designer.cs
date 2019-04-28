@@ -34,7 +34,6 @@
             // 
             // GameTime
             // 
-            this.GameTime.Tick += new System.EventHandler(this.GameTime_Tick);
             // 
             // Form1
             // 
@@ -43,7 +42,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.DoubleBuffered = true;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "7";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.TheGame_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);

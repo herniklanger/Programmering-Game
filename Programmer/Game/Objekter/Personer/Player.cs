@@ -14,6 +14,10 @@ namespace Programmer.Game.Objekter.Personer
         {
             
         }
-        
+
+        public override Ithem Copy()
+        {
+            return null;
+        }
     }
 }

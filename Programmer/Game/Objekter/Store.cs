@@ -8,17 +8,33 @@ namespace Programmer.Game.Objekter
 {
     class Store : Ithem
     {
-        Ithem[] Stock;
+        string[] stock;
 
-        public Store(int LocationX, int LocationY, int width, int heigth, Ithem[] stock) : base("Shop", LocationX, LocationY, width, heigth)
+        public Store(int LocationX, int LocationY, int width, int heigth, string[] stock) : base("Shop", LocationX, LocationY, width, heigth)
         {
-            Stock = stock;
+            this.stock = stock;
         }
-
         public override string Save()
         {
-            string Save="";
-            return Save;
+            string Save= $"{ X}, { Y}, { Width}, { Heith},{{";
+            foreach(string stuck in stock)
+            {
+                Save += stuck +", ";
+            }
+            return Save.Remove(Save.Length-2)+"}";
+        }
+        public override Ithem Copy()
+        {
+            string[] stock = null;
+            if(this.stock != null)
+            {
+                stock = new string[this.stock.Length-1];
+                for (int i = 0; i < this.stock.Length; i++)
+                {
+                    stock[i] = this.stock[i];
+                }
+            }
+            return new Store(X,Y,Width,Heith,stock);
         }
     }
 }
