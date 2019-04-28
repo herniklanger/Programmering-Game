@@ -9,7 +9,7 @@ namespace Programmer.Game_Engen
     class WorldCreader : Engen
     {
         public static Form1 form;
-        Form2 selectore;
+        private static Form2 selectore;
         private static WorldCreader instans;
         private WorldCreader(int width, int heith) : base(width, heith)
         {
@@ -47,6 +47,7 @@ namespace Programmer.Game_Engen
                     return ithem;
                 }
             }
+            selectore.Visible = true;
             return null;
         }
         internal override void Game()

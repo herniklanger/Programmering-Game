@@ -14,10 +14,10 @@ namespace Programmer
     public partial class Form2 : Form
     {
         public delegate object Place(int X, int Y);
-        public delegate void drawSelected(Graphics g, int X, int Y,int Gridt);
-        private Ithem selected;
         public Place GetIthem;
+        public delegate void drawSelected(Graphics g, int X, int Y,int Gridt);
         public drawSelected DrawSelected;
+        private Ithem selected;
         public string selectedIthem;
         public Form2()
         {
@@ -33,6 +33,8 @@ namespace Programmer
             };
             InitializeComponent();
             Ithems.SelectedIndex = 0;
+            Height.Text = "1";
+            Width.Text = "1";
         }
         private int GetHeigth()
         {

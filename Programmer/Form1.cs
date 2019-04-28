@@ -14,7 +14,7 @@ namespace Programmer
     public partial class Form1 : Form
     {
         Engen game;
-        public delegate object StartSpil();
+        public delegate void StartSpil();
         public StartSpil Game;
         //dette er en test
 
@@ -22,7 +22,10 @@ namespace Programmer
         {
             #if DEBUG
             game = WorldCreader.Instans(this,Width, Height);
-            Game = () => game = Game_Engen.Engen2D.Engenen2D(Width, Height);
+            Game = () =>
+            {
+                game = Engen2D.Engenen2D(Width, Height);
+            };
             #else
             game = Engen2D.Engenen2D(Width, Height);
             #endif
