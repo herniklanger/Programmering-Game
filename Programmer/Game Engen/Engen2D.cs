@@ -19,7 +19,6 @@ namespace Programmer.Game_Engen
             Grid= Width / 50;
             player = new Player("Henrik",0,0,null,null);
             objekter.Add(player);
-            objekter.Add(new House("unknown",10,10,5,5));
             gameIsRinning = true;
             Random r = new Random();
         }
@@ -29,6 +28,11 @@ namespace Programmer.Game_Engen
             {
                 engen2D = new Engen2D(width, heith);
             }
+            return engen2D;
+        }
+        public static Engen2D Restart(int width = 600, int heith = 800)
+        {
+            engen2D = new Engen2D(width, heith);
             return engen2D;
         }
         public override void Garphish(Graphics g)

@@ -59,7 +59,9 @@ namespace Programmer.Game_Engen
                 {
                     if (MouseX >= 0 && MouseX < 20 && MouseY >= 0 && MouseY < 20)
                     {
+                        selectore.Invoke(selectore.Clos);
                         form.Game();
+                        instans = null;
                     }else
                     {
                         lock (objektLock)

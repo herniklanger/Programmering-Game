@@ -17,6 +17,8 @@ namespace Programmer
         public Place GetIthem;
         public delegate void drawSelected(Graphics g, int X, int Y,int Gridt);
         public drawSelected DrawSelected;
+        public delegate void Despose();
+        public Despose Clos;
         private Ithem selected;
         public string selectedIthem;
         public Form2()
@@ -30,6 +32,10 @@ namespace Programmer
                 Ithem i = selected.Copy();
                 i.SetLocation(X, Y);
                 return i;
+            };
+            Clos = () =>
+            {
+                Close();
             };
             InitializeComponent();
             Ithems.SelectedIndex = 0;
@@ -68,6 +74,7 @@ namespace Programmer
             }
             return int.Parse(number);
         }
+
         private void Ithems_SelectedIndexChanged(object sender, EventArgs e)
         {
             Graphics g = pictureBox1.CreateGraphics();

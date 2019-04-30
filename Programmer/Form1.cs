@@ -20,16 +20,16 @@ namespace Programmer
 
         public Form1()
         {
+            InitializeComponent();
             #if DEBUG
             game = WorldCreader.Instans(this,Width, Height);
             Game = () =>
             {
-                game = Engen2D.Engenen2D(Width, Height);
+                game = Engen2D.Restart(Width, Height);
             };
             #else
             game = Engen2D.Engenen2D(Width, Height);
             #endif
-            InitializeComponent();
             GameTime.Interval = (1000 / 60);
             GameTime.Tick += Timer;
             GameTime.Start();
@@ -53,6 +53,12 @@ namespace Programmer
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             game.keyStrouck[e.KeyValue] = false;
+            #if DEBUG
+            if (e.KeyValue == 27)
+            {
+                game = WorldCreader.Instans(this, Width, Height);
+            }
+            #endif
         }
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
