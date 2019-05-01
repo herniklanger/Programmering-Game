@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Programmer.Game.Objekter;
+using Programmer.Game.Objekter.Personer;
+using System;
 using System.Drawing;
 using System.Threading;
-using Programmer.Game.Objekter;
-using Programmer.Game.Objekter.Personer;
 
 namespace Programmer.Game_Engen
 {
-    class Engen2D:Engen
+    class Engen2D : Engen
     {
         private static Engen2D engen2D;
         private Player player;
@@ -14,10 +14,10 @@ namespace Programmer.Game_Engen
         private int tickCount = 0;
         long currentTime = 0;
         //public Hotbar hotbar;
-        private Engen2D(int width, int heith):base(width,heith)
+        private Engen2D(int width, int heith) : base(width, heith)
         {
-            Grid= Width / 50;
-            player = new Player("Henrik",0,0,null,null);
+            Grid = Width / 50;
+            player = new Player("Henrik", 0, 0, null, null);
             objekter.Add(player);
             gameIsRinning = true;
             Random r = new Random();
@@ -37,7 +37,7 @@ namespace Programmer.Game_Engen
         }
         public override void Garphish(Graphics g)
         {
-            for(int i =0;i<objekter.Count;i++ )
+            for (int i = 0; i < objekter.Count; i++)
             {
                 objekter[i].Draw(g, ScreenX, ScreenY, Grid, Grid);
             }
@@ -78,48 +78,49 @@ namespace Programmer.Game_Engen
                 Thread.Sleep(1);
             }
         }
-        private long MumentBuffer =0;
+        private long MumentBuffer = 0;
         public void render()
         {
-            ScreenX += player.X + ScreenX > 3+Width/(Grid * 2) ? -1 : 0;
-            ScreenX += player.X + ScreenX < -3+Width / (Grid * 2) ? 1 : 0;
-            ScreenY += player.Y + ScreenY > 3+Heith / (Grid * 2) ? -1 : 0;
-            ScreenY += player.Y + ScreenY < -3+Heith / (Grid * 2)? 1 : 0;
-            if(keyStrouck[65]^keyStrouck[87]^keyStrouck[68]^keyStrouck[83] && MumentBuffer+100000000 < currentTime)
+            ScreenX += player.X + ScreenX > 3 + Width / (Grid * 2) ? -1 : 0;
+            ScreenX += player.X + ScreenX < -3 + Width / (Grid * 2) ? 1 : 0;
+            ScreenY += player.Y + ScreenY > 3 + Heith / (Grid * 2) ? -1 : 0;
+            ScreenY += player.Y + ScreenY < -3 + Heith / (Grid * 2) ? 1 : 0;
+            if (keyStrouck[65] ^ keyStrouck[87] ^ keyStrouck[68] ^ keyStrouck[83] && MumentBuffer + 100000000 < currentTime)
             {
-                player.Direction = (Int16)(keyStrouck[83] ? 2: player.Direction);
-                player.Direction = (Int16)(keyStrouck[65] ? 4: player.Direction);
-                player.Direction = (Int16)(keyStrouck[87] ? 3: player.Direction);
-                player.Direction = (Int16)(keyStrouck[68] ? 1: player.Direction);
+                player.Direction = (Int16)(keyStrouck[83] ? 2 : player.Direction);
+                player.Direction = (Int16)(keyStrouck[65] ? 4 : player.Direction);
+                player.Direction = (Int16)(keyStrouck[87] ? 3 : player.Direction);
+                player.Direction = (Int16)(keyStrouck[68] ? 1 : player.Direction);
                 MumentBuffer = currentTime;
             }
+
         }
         private void Animation()
         {
             //Console.WriteLine(ScreenX+", "+ScreenY);
-            lock(objektLock)
+            lock (objektLock)
             {
-                for (int i = 0; i < objekter.Count;i++)
+                for (int i = 0; i < objekter.Count; i++)
                 {
-                    if(objekter[i].GetKareakter() != null)
+                    if (objekter[i].GetKareakter() != null)
                     {
                         objekter[i].GetKareakter().Muve(ref tickCount);
                     }
                 }
             }
         }
-        public override Ithem IsThisfealtEmty(int x,int y)
+        public override Ithem IsThisfealtEmty(int x, int y)
         {
-            foreach(Ithem ithem in objekter)
+            foreach (Ithem ithem in objekter)
             {
-                if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y&& ithem.Y + ithem.Heith > y)
+                if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y && ithem.Y + ithem.Heith > y)
                 {
                     return ithem;
                 }
             }
             return null;
         }
-        public bool IthemInNextSpot(int x,int y)
+        public bool IthemInNextSpot(int x, int y)
         {
             foreach (Ithem ithem in objekter)
             {

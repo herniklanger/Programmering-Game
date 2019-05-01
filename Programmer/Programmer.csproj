@@ -68,7 +68,7 @@
     <Compile Include="Game\Objekter\Personer\Player.cs" />
     <Compile Include="Game\Objekter\Tree.cs" />
     <Compile Include="Game\Tasks\Task.cs" />
-    <Compile Include="Game\Woarld\Loader.cs" />
+    <Compile Include="Game\AppData\FileHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

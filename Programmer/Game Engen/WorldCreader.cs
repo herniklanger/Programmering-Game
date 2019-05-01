@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Programmer.Game.Objekter;
+using System;
 using System.Drawing;
-using System.Collections.Generic;
 using System.Threading;
-using Programmer.Game.Objekter;
 
 namespace Programmer.Game_Engen
 {
@@ -15,8 +14,9 @@ namespace Programmer.Game_Engen
         {
             selectore = new Form2();
             selectore.Show();
+            objekter.Add(new Store(20, 20, 6, 4,new string[]{"test", "et"}));
         }
-        public static WorldCreader Instans(Form1 f,int width = 600, int heith = 800)
+        public static WorldCreader Instans(Form1 f, int width = 600, int heith = 800)
         {
             form = f;
             if (instans == null)
@@ -27,9 +27,9 @@ namespace Programmer.Game_Engen
         }
         public override void Garphish(Graphics g)
         {
-            g.DrawRectangle(new Pen(Color.Black),0,0,20,20);
+            g.DrawRectangle(new Pen(Color.Black), 0, 0, 20, 20);
             g.FillPolygon(new SolidBrush(Color.LightGreen), new Point[] { new Point(5, 5), new Point(5, 15), new Point(15, 10) });
-            selectore.DrawSelected(g, (Grid == 0 ? 0 : MouseX / Grid)-1, (Grid == 0 ? 0 : MouseY / Grid)-1,Grid);
+            selectore.DrawSelected(g, (Grid == 0 ? 0 : MouseX / Grid) - 1, (Grid == 0 ? 0 : MouseY / Grid) - 1, Grid);
             lock (objektLock)
             {
                 foreach (Ithem i in objekter)
@@ -53,7 +53,7 @@ namespace Programmer.Game_Engen
         internal override void Game()
         {
             bool LeftClik = false;
-            while(true)
+            while (true)
             {
                 if (LeftClik && !mouseLeft)
                 {
@@ -62,13 +62,15 @@ namespace Programmer.Game_Engen
                         selectore.Invoke(selectore.Clos);
                         form.Game();
                         instans = null;
-                    }else
+
+                    }
+                    else
                     {
                         lock (objektLock)
                         {
                             Console.WriteLine("TryToPlace");
                             object place = selectore.GetIthem((Grid == 0 ? 0 : MouseX / Grid), (Grid == 0 ? 0 : MouseY / Grid));
-                            if(place != null)
+                            if (place != null)
                             {
                                 objekter.Add((Ithem)place);
                             }
@@ -86,7 +88,7 @@ namespace Programmer.Game_Engen
             {
                 for (int y = 0; y > ithem.Heith; y++)
                 {
-                    if(null==IsThisfealtEmty(x+ithem.X,y+ithem.Y))
+                    if (null == IsThisfealtEmty(x + ithem.X, y + ithem.Y))
                     {
                         Console.WriteLine("Not able to place");
                         return;
