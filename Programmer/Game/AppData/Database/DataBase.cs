@@ -18,16 +18,16 @@ namespace Programmer.Game.AppData.Database
         {
             Name = "\\" + DatabaseName;
             Location = Resource1.DataLocation;
-            if(!Directory.Exists(Location + Name))
+            if (!Directory.Exists(Location + Name))
             {
                 Directory.CreateDirectory(Location + Name);
             }
             File.CreateText(Location + Name + DATABASE).Close();
         }
-        public void CreadTabel(string name, Type[] variabler,string [] Names,bool id)
+        public void CreadTabel(string name, Type[] variabler, string[] Names, bool id)
         {
             //Om der skal oprettet en automatisk id
-            if(id)
+            if (id)
             {
                 List<Type> list = new List<Type>();
                 list.Add(Type.GetType("System.UInt32"));
@@ -40,13 +40,13 @@ namespace Programmer.Game.AppData.Database
             }
             //fjerner ting franavnet vis det ved en fejl
             name = name.Replace("\\", "");
-            if(name.Contains('.'))
+            if (name.Contains('.'))
             {
-                name = name.Remove(name.IndexOf('.')-1);
+                name = name.Remove(name.IndexOf('.') - 1);
             }
             string file = "\\" + name + ".txt";
             //tjekker om tablellen existere og vis den existere får man valget alle
-            if(File.Exists(Location + Name + file))
+            if (File.Exists(Location + Name + file))
             {
                 string message = "This table dos alredy exist do you want to override it?";
                 string title = "Close Window";
@@ -57,16 +57,17 @@ namespace Programmer.Game.AppData.Database
                     string[] database = File.ReadAllLines(Location + Name + DATABASE);
                     using (StreamWriter writ = new StreamWriter(Location + Name + DATABASE))
                     {
-                        foreach(string s in database)
+                        foreach (string s in database)
                         {
-                            if(s.Equals(Name))
+                            if (s.Equals(Name))
                             {
                                 writ.WriteLine(s);
                             }
                         }
                     }
                     File.Delete(Location + Name + file);
-                }else
+                }
+                else
                 {
                     return;
                 }
@@ -78,7 +79,7 @@ namespace Programmer.Game.AppData.Database
             }
             using (StreamWriter Writer = File.CreateText(Location + Name + file))
             {
-                Writer.WriteLine("IDvalue = " + id + (id?" 0":""));
+                Writer.WriteLine("IDvalue = " + id + (id ? " 0" : ""));
                 foreach (Type type in variabler)
                 {
                     Writer.Write(type.Name + " ");
@@ -93,46 +94,48 @@ namespace Programmer.Game.AppData.Database
                 Writer.Write($"<\\{name}>");
             }
         }
-        public bool AddToTabel(string tabel,object[] variabler)
+        public bool AddToTabel(string tabel, object[] variabler)
         {
             string file = "\\" + tabel + ".txt";
-            if(File.Exists(Location + Name + file))
+            if (File.Exists(Location + Name + file))
             {
                 List<string> fil = File.ReadAllLines(Location + Name + file).ToList();
-                if(fil[0].Contains("True"))
+                if (fil[0].Contains("True"))
                 {
                     UInt32 ID = UInt32.Parse(fil[0].Substring(fil[0].LastIndexOf(' ')));
                     List<object> list = new List<object>();
                     list.Add(ID);
                     list.AddRange(variabler);
                     variabler = list.ToArray();
-                    fil[0] = fil[0].Replace(ID+"",(ID+1)+"");
+                    fil[0] = fil[0].Replace(ID + "", (ID + 1) + "");
                 }
                 string typer = fil[1];
-                foreach(object variable in variabler)
+                foreach (object variable in variabler)
                 {
                     Type t = Type.GetType("System." + typer.Remove(typer.IndexOf(' ')));
-                    if (variable.GetType() == Type.GetType("System."+typer.Remove(typer.IndexOf(' '))))
+                    if (variable.GetType() == Type.GetType("System." + typer.Remove(typer.IndexOf(' '))))
                     {
-                        typer = typer.Substring(typer.IndexOf(' ')+1);
+                        typer = typer.Substring(typer.IndexOf(' ') + 1);
                     }
                 }
                 string inset = "";
-                foreach(object variable in variabler)
+                foreach (object variable in variabler)
                 {
-                    if(variable.GetType()==Type.GetType("System.String")|| variable.GetType() == Type.GetType("System.Char"))
+                    if (variable.GetType() == Type.GetType("System.String") || variable.GetType() == Type.GetType("System.Char"))
                     {
                         string s = variable + "";
                         s = s.Replace("'", "");
-                        inset += "'"+s+"' ";
-                    }else
+                        inset += "'" + s + "' ";
+                    }
+                    else
                     {
                         inset += variable + " ";
                     }
                 }
-                fil.Insert(fil.Count - 1,inset);
-                File.WriteAllLines(Location + Name + file,fil);
-            }else
+                fil.Insert(fil.Count - 1, inset);
+                File.WriteAllLines(Location + Name + file, fil);
+            }
+            else
             {
                 return false;
             }
@@ -146,6 +149,7 @@ namespace Programmer.Game.AppData.Database
             int columonsCount = fil[2].Count(f => f == ' ');
             string columName = fil[2];
             int[] columNummer = new int[colonums.Length];
+            // typer
             string[] typer = new string[columonsCount];
             string type = fil[1];
             for (int i = 0; i < columonsCount; i++)
@@ -154,49 +158,51 @@ namespace Programmer.Game.AppData.Database
                 type = type.Substring(type.IndexOf(' ') + 1);
             }
             //Omformer colonums to verdi
-            for (int i = 0;i < columNummer.Length; i++)
+            for (int i = 0; i < columNummer.Length; i++)
             {
                 columNummer[i] = columName.Remove(columName.IndexOf(colonums[i])).Count(f => f == ' ');
             }
-            for(int i = 0; i < columNummer.Length;i++)
+            for (int i = 0; i < columNummer.Length; i++)
             {
-                if(Type.GetType("System." + typer[columNummer[i]]) != variabler[i].GetType())
+                if (Type.GetType("System." + typer[columNummer[i]]) != variabler[i].GetType())
                 {
                     throw new TypeAccessException("Variablerne Stemmer ikke over ens tabellen " + typer[columNummer[i]] + " svare ikke til " + variabler[i].GetType());
                 }
             }
             int start = 0;
-            while (!fil[start++].Equals("<" + tabel + ">"));
-            for(int i = start; fil[i] != "<\\"+ tabel + ">";i++)
+            while (!fil[start++].Equals("<" + tabel + ">")) ;
+            for (int i = start; fil[i] != "<\\" + tabel + ">"; i++)
             {
-                if(fil[i].Remove(fil[i].IndexOf(' ')).Equals(id + ""))
+                if (fil[i].Remove(fil[i].IndexOf(' ')).Equals(id + ""))
                 {
                     string[] cels = new string[columonsCount];
                     string row = fil[i];
-                    for(int cel  = 0; cel<columonsCount;cel++)
+                    for (int cel = 0; cel < columonsCount; cel++)
                     {
-                        if(typer[cel].Equals("String") ||typer[cel].Equals("Char"))
+                        if (typer[cel].Equals("String") || typer[cel].Equals("Char"))
                         {
                             row = row.Substring(1);
                             cels[cel] = row.Remove(row.IndexOf("' "));
-                            row = row.Substring(row.IndexOf("' ")+2);
-                        }else
+                            row = row.Substring(row.IndexOf("' ") + 2);
+                        }
+                        else
                         {
                             cels[cel] = row.Remove(row.IndexOf(' '));
-                            row = row.Substring(row.IndexOf(' ')+1);
+                            row = row.Substring(row.IndexOf(' ') + 1);
                         }
                     }
-                    for(int chaceCel = 0; chaceCel < columNummer.Length; chaceCel++)
+                    for (int chaceCel = 0; chaceCel < columNummer.Length; chaceCel++)
                     {
-                        cels[columNummer[chaceCel]] = variabler[chaceCel].ToString(); 
+                        cels[columNummer[chaceCel]] = variabler[chaceCel].ToString();
                     }
                     string newRow = "";
-                    for(int cel = 0; cel < cels.Length;cel++)
+                    for (int cel = 0; cel < cels.Length; cel++)
                     {
-                        if(typer[cel].Equals("String") || typer[cel].Equals("Char"))
+                        if (typer[cel].Equals("String") || typer[cel].Equals("Char"))
                         {
                             newRow += "'" + cels[cel] + "' ";
-                        }else
+                        }
+                        else
                         {
                             newRow += cels[cel] + " ";
                         }
@@ -208,29 +214,107 @@ namespace Programmer.Game.AppData.Database
             File.Delete(Location + Name + file);
             File.WriteAllLines(Location + Name + file, fil);
         }
+        public void UpdateVariable(Select seach, string[] seachColonums, string[] updateColonums, object[] variabler, string tabel)
+        {
+            string file = "\\" + tabel + ".txt";
+            object[,] tablen = ReadTable(tabel);
+            string[] fil = File.ReadAllLines(Location + Name + file);
+
+
+            //typer
+            string[] typer = new string[tablen.GetLength(1)];
+            string type = fil[1];
+            for (int i = 0; i < typer.Length; i++)
+            {
+                typer[i] = type.Remove(type.IndexOf(' '));
+                type = type.Substring(type.IndexOf(' ') + 1);
+            }
+            //finder select colums
+            int[] selectColonums = new int[seachColonums.Length];
+            string columName = fil[2];
+            for (int i = 0; i < seachColonums.Length; i++)
+            {
+                selectColonums[i] = columName.Remove(columName.IndexOf(seachColonums[i])).Count(f => f == ' ');
+            }
+            //finder updatede colums
+            int[] updateColonumNr = new int[updateColonums.Length];
+            string updateName = fil[2];
+            for (int i = 0; i < updateColonums.Length; i++)
+            {
+                updateColonumNr[i] = columName.Remove(columName.IndexOf(updateColonums[i])).Count(f => f == ' ');
+            }
+#if DEBUG
+            //tjeckker om det er rigtigt type
+            for (int i = 0; i < updateColonums.Length; i++)
+            {
+                if (Type.GetType("System." + typer[updateColonumNr[i]]) != variabler[i].GetType())
+                {
+                    throw new TypeAccessException("Variablerne Stemmer ikke over ens tabellen " + typer[updateColonumNr[i]] + " svare ikke til " + variabler[i].GetType());
+                }
+            }
+#endif
+            //updatere celler
+            for (int row = 0; row < tablen.GetLength(0); row++)
+            {
+                object[] cles = new object[seachColonums.Length];
+                for (int colum = 0; colum < cles.Length; colum++)
+                {
+
+                }
+            }
+            //rasten af oblysningner til at gemme med
+            List<string> filWrither = new List<string>();
+            foreach (string s in fil)
+            {
+                filWrither.Add(s);
+                if (s.Equals("<" + tabel + ">"))
+                {
+                    break;
+                }
+            }
+            for (int x = 0; x < tablen.GetLength(0); x++)
+            {
+                string row = "";
+                for (int y = 0; y < tablen.GetLength(1); y++)
+                {
+                    if (typer[y] == "String" || typer[y] == "Char")
+                    {
+                        row += "'" + tablen[x, y] + "' ";
+                    }
+                    else
+                    {
+                        row += tablen[x, y] + " ";
+                    }
+                }
+                filWrither.Add(row);
+            }
+            filWrither.Add("<\\" + tablen + ">");
+            File.Delete(Location + Name + file);
+            File.WriteAllLines(Location + Name + file, filWrither);
+        }
         public object[,] ReadTable(string tabel)
         {
             string file = "\\" + tabel + ".txt";
             string[] linjer = File.ReadAllLines(Location + Name + file);
             int rakker = 0;
-            while (!linjer[rakker++].Equals("<" + tabel + ">"));
+            while (!linjer[rakker++].Equals("<" + tabel + ">")) ;
             int colonner = linjer[2].Count(f => f == ' ');
             string[] typer = new string[colonner];
             string type = linjer[1];
             //typer gemt
-            for(int i = 0;i<colonner;i++)
+            for (int i = 0; i < colonner; i++)
             {
                 typer[i] = type.Remove(type.IndexOf(' '));
                 type = type.Substring(type.IndexOf(' ') + 1);
             }
-            object[,] tabellen = new object[linjer.Length - rakker-1, colonner];
+            object[,] tabellen = new object[linjer.Length - rakker - 1, colonner];
             //ReadTable
-            for(int value = 0; rakker < linjer.Length - 1; rakker++,value++ )
+            for (int value = 0; rakker < linjer.Length - 1; rakker++, value++)
             {
                 string linje = linjer[rakker];
-                for(int celle = 0; celle<colonner;celle++)
+                for (int celle = 0; celle < colonner; celle++)
                 {
-                    switch(typer[celle])
+                    switch (typer[celle])
                     {
                         case "Boolean":
                             tabellen[value, celle] = Boolean.Parse(linje.Remove(linje.IndexOf(' ')));
@@ -245,8 +329,8 @@ namespace Programmer.Game.AppData.Database
                             linje = linje.Substring(linje.IndexOf(' ') + 1);
                             break;
                         case "Int16":
-                            tabellen[value,celle] = Int16.Parse(linje.Remove(linje.IndexOf(' ')));
-                            linje = linje.Substring(linje.IndexOf(' ')+1);
+                            tabellen[value, celle] = Int16.Parse(linje.Remove(linje.IndexOf(' ')));
+                            linje = linje.Substring(linje.IndexOf(' ') + 1);
                             break;
                         case "UInt16":
                             tabellen[value, celle] = UInt16.Parse(linje.Remove(linje.IndexOf(' ')));
@@ -285,11 +369,11 @@ namespace Programmer.Game.AppData.Database
                             linje = linje.Substring(linje.IndexOf(' ') + 1);
                             break;
                         case "String":
-                            tabellen[value, celle] = linje.Substring(1).Remove(linje.IndexOf("' ")-1);
+                            tabellen[value, celle] = linje.Substring(1).Remove(linje.IndexOf("' ") - 1);
                             linje = linje.Substring(linje.IndexOf("' ") + 2);
                             break;
                         case "Char":
-                            tabellen[value, celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ")-1));
+                            tabellen[value, celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ") - 1));
                             linje = linje.Substring(linje.IndexOf("' ") + 2);
                             break;
                         default:
@@ -300,14 +384,15 @@ namespace Programmer.Game.AppData.Database
             }
             return tabellen;
         }
-        public object[] ReadTabel(string[] colonums, int id,string tabel)
+        public object[] ReadTable(string[] colonums, int id, string tabel)
         {
             object[] variable = new object[colonums.Length];
             string file = "\\" + tabel + ".txt";
-            string[] fil = File.ReadAllLines(Location + Name + file); 
+            string[] fil = File.ReadAllLines(Location + Name + file);
             int colonner = fil[2].Count(f => f == ' ');
             int[] columNummer = new int[colonums.Length];
             string columName = fil[2];
+            //Colums sece
             for (int i = 0; i < columNummer.Length; i++)
             {
                 columNummer[i] = columName.Remove(columName.IndexOf(colonums[i])).Count(f => f == ' ');
@@ -321,11 +406,11 @@ namespace Programmer.Game.AppData.Database
                 type = type.Substring(type.IndexOf(' ') + 1);
             }
             int startRakke = 0;
-            while (!fil[startRakke++].Equals("<" + tabel + ">"));
+            while (!fil[startRakke++].Equals("<" + tabel + ">")) ;
             int rakke = startRakke;
-            while(!fil[rakke].Equals("<\\" + tabel + ">"))
+            while (!fil[rakke].Equals("<\\" + tabel + ">"))
             {
-                if(fil[rakke].Remove(fil[rakke].IndexOf(' ')).Equals(id+""))
+                if (fil[rakke].Remove(fil[rakke].IndexOf(' ')).Equals(id + ""))
                 {
                     string linje = fil[rakke];
                     object[] celler = new object[colonner];
@@ -398,7 +483,7 @@ namespace Programmer.Game.AppData.Database
                                 break;
                         }
                     }
-                    for(int i = 0; i < columNummer.Length; i++)
+                    for (int i = 0; i < columNummer.Length; i++)
                     {
                         variable[i] = celler[columNummer[i]];
                     }
@@ -408,11 +493,59 @@ namespace Programmer.Game.AppData.Database
             }
             return variable;
         }
-        public object[,] ReadAt(Select seach,string[] seachColonums,string[] returnColonums)
+        public object[,] ReadTable(Select seach, string[] seachColonums, string[] returnColonums, string tabel)
         {
-
             List<object[]> found = new List<object[]>();
-            return null;
+            string file = "\\" + tabel + ".txt";
+            string[] fil = File.ReadAllLines(Location + Name + file);
+            //finder retunr colums
+            int[] colonumsReturn = new int[returnColonums.Length];
+            string columName = fil[2];
+            for (int i = 0; i < returnColonums.Length; i++)
+            {
+                colonumsReturn[i] = columName.Remove(columName.IndexOf(returnColonums[i])).Count(f => f == ' ');
+            }
+            //finder select colums
+            int[] selectColonums = new int[seachColonums.Length];
+            columName = fil[2];
+            for (int i = 0; i < seachColonums.Length; i++)
+            {
+                selectColonums[i] = columName.Remove(columName.IndexOf(seachColonums[i])).Count(f => f == ' ');
+            }
+            object[,] table = ReadTable(tabel);
+            for (int row = 0; row < table.GetLength(0); row++)
+            {
+                object[] seachRow = new object[selectColonums.Length];
+                for (int seac = 0; seac < selectColonums.Length; seac++)
+                {
+                    seachRow[seac] = table[row, selectColonums[seac]];
+                }
+                if (seach(seachRow))
+                {
+                    object[] re = new object[colonumsReturn.Length];
+                    for (int seac = 0; seac < colonumsReturn.Length; seac++)
+                    {
+                        re[seac] = table[row, colonumsReturn[seac]];
+                    }
+                    found.Add(re);
+                }
+            }
+            if (found.Count > 0)
+            {
+                object[,] tabelReturn = new object[found.Count, found[0].Length];
+                for (int x = 0; x < found.Count; x++)
+                {
+                    for (int y = 0; y < found[x].Length; y++)
+                    {
+                        tabelReturn[x, y] = found[x][y];
+                    }
+                }
+                return tabelReturn;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
