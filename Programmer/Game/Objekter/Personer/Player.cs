@@ -10,14 +10,14 @@ namespace Programmer.Game.Objekter.Personer
     class Player:Karektere
     {
         
-        public Player(String name,int startPosisioX,int startPosisioY, int[] houses, int[] Workspace) :base(name,startPosisioX,startPosisioY, 30,houses,Workspace)
+        public Player(String name, int IthemID, int startPosisioX,int startPosisioY, int[] houses, int[] Workspace) :base(name, IthemID, startPosisioX,startPosisioY, 30,houses,Workspace)
         {
             
         }
 
         public override Ithem Copy()
         {
-            return null;
+            return this;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Programmer.Game.Objekter
 {
     abstract class Ithem
     {
-        int IThemID;
+        public int IthemID { get; }
         private Image Person;
         public int X { get; internal set; }
         public int Y { get; internal set; }
@@ -13,8 +13,9 @@ namespace Programmer.Game.Objekter
         public int Heith { get; internal set; }
         public String Name { get; internal set; }
         public int RunMument { get; set; }
-        public Ithem(String name, int LocationX, int LocationY, int width = 1, int height = 1)
+        public Ithem(String name,int IthemID, int LocationX, int LocationY, int width = 1, int height = 1)
         {
+            this.IthemID = IthemID;
             X = LocationX;
             Y = LocationY;
             Width = width;
@@ -39,7 +40,7 @@ namespace Programmer.Game.Objekter
         {
             g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Heith);
         }
-        public abstract string Save();
+        public abstract string Save(string tab);
         public abstract Ithem Copy();
     }
 }

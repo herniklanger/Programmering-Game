@@ -17,7 +17,7 @@ namespace Programmer.Game.Objekter.Personer
         public int Muvment { get; private set; }
         private int speed; 
         public Int16 Direction { get; set; }
-        public Karektere(String name, int x, int y, int speed,int[] Houses,int[] WorkPlace) : base(name, x, y)
+        public Karektere(String name, int IthemID, int x, int y, int speed,int[] Houses,int[] WorkPlace) : base(name, IthemID, x, y)
         {
             this.speed = speed;
             this.Houses = Houses;
@@ -27,19 +27,27 @@ namespace Programmer.Game.Objekter.Personer
         {
             return this;
         }
-        public override string Save()
+        public override string Save(string tab)
         {
-            string save = $"{Name}, {X},{Y},{speed}, {{";
+            string save = tab + $"{Name}, {IthemID}, {X},{Y},{speed}\n";
+            save += "<hus>\n";
+            tab += "\t";
             foreach(int hus in Houses)
             {
-                save += hus +", ";
+                save += tab + hus+"\n";
             }
-            save = save.Remove(save.Length - 2) + "}, {";
+            tab = tab.Remove(tab.Length-1);
+            save += tab+"<\\hus>\n";
+            save += tab+"<Work>\n";
+            tab += "\t";
             foreach(int work in Worck)
             {
-                save += work + ", ";
+                save += tab + work + "\n";
             }
-            return save.Remove(save.Length - 2) + "}";
+            tab = tab.Remove(tab.Length - 1);
+            save += tab + "<\\Work>\n";
+            return save;
+
         }
         public virtual Player GetPlayer()
         {

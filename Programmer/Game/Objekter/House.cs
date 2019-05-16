@@ -9,20 +9,20 @@ namespace Programmer.Game.Objekter
 {
     class House : Ithem
     {
-        public House(string name, int LocationX, int LocationY, int width, int height) : base(name, LocationX, LocationY, width, height)
+        public House(string name, int IthemID, int LocationX, int LocationY, int width, int height) : base(name, IthemID, LocationX, LocationY, width, height)
         {
         }
         public virtual void Event(Ithem Kereatore)
         {
              
         }
-        public override string Save()
+        public override string Save(string tab)
         {
-            return $"{Name}, {X}, {Y}, {Width}, {Heith}";
+            return tab+$"{Name}, {IthemID}, {X}, {Y}, {Width}, {Heith}";
         }
         public override Ithem Copy()
         {
-            return new House(Name, 0, 0, Width, Heith);
+            return new House(Name, IthemID, 0, 0, Width, Heith);
         }
     }
 }

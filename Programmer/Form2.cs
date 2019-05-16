@@ -83,10 +83,10 @@ namespace Programmer
             switch(Ithems.Text)
             {
                 case "Tree":
-                    selected = new Tree("Tree",1,1,GetWidth());
+                    selected = new Tree("Tree",2,1,1,GetWidth());
                     break;
                 case "Store":
-                    selected = new Store(1, 1, GetWidth(), GetHeigth(),null);
+                    selected = new Store(0,1, 1, GetWidth(), GetHeigth(),null);
                     break;
             }
             selected.Draw(g, 0, 0, trackBar1.Value, trackBar1.Value);

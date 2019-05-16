@@ -10,13 +10,13 @@ namespace Programmer.Game.Objekter
     {
         string[] stock;
 
-        public Store(int LocationX, int LocationY, int width, int heigth, string[] stock) : base("Shop", LocationX, LocationY, width, heigth)
+        public Store(int IthemID, int LocationX, int LocationY, int width, int heigth, string[] stock) : base("Shop", IthemID, LocationX, LocationY, width, heigth)
         {
             this.stock = stock;
         }
-        public override string Save()
+        public override string Save(string tab)
         {
-            string Save= $"{ X}, { Y}, { Width}, { Heith},{{";
+            string Save = tab + $"{IthemID}, { X}, { Y}, { Width}, { Heith},{{";
             foreach(string stuck in stock)
             {
                 Save += stuck +", ";
@@ -34,7 +34,7 @@ namespace Programmer.Game.Objekter
                     stock[i] = this.stock[i];
                 }
             }
-            return new Store(X,Y,Width,Heith,stock);
+            return new Store(IthemID, X, Y,Width,Heith,stock);
         }
     }
 }

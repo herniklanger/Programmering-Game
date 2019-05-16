@@ -1,7 +1,9 @@
 ﻿using Programmer.Game.Objekter;
+using Programmer.Game.Objekter.Personer;
 using System;
 using System.Drawing;
 using System.Threading;
+using Programmer.Game.AppData;
 
 namespace Programmer.Game_Engen
 {
@@ -14,7 +16,7 @@ namespace Programmer.Game_Engen
         {
             selectore = new Form2();
             selectore.Show();
-            objekter.Add(new Store(20, 20, 6, 4,new string[]{"test", "et"}));
+            objekter.Add(new Player("Henrik",0, 0, 0, new int[0],new int[0]));
         }
         public static WorldCreader Instans(Form1 f, int width = 600, int heith = 800)
         {
@@ -59,10 +61,10 @@ namespace Programmer.Game_Engen
                 {
                     if (MouseX >= 0 && MouseX < 20 && MouseY >= 0 && MouseY < 20)
                     {
+                        FileHandler.Instans().SaveWoarld(objekter);
                         selectore.Invoke(selectore.Clos);
                         form.Game();
                         instans = null;
-
                     }
                     else
                     {

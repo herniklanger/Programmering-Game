@@ -1,0 +1,32 @@
+<Woald>
+	<Kareaktere>
+		<Player>
+			Henrik, 0,0,30,},}
+		<\Player>
+	<\Kareaktere>
+	<Store>
+	<\Store>
+	<Tree>
+		Tree, 20, 11, 1
+		Tree, 30, 6, 1
+		Tree, 18, 4, 1
+		Tree, 35, 12, 1
+		Tree, 21, 18, 1
+		Tree, 8, 23, 1
+		Tree, 10, 13, 1
+		Tree, 9, 9, 1
+		Tree, 29, 18, 1
+		Tree, 27, 12, 1
+		Tree, 43, 10, 1
+		Tree, 41, 5, 1
+		Tree, 40, 21, 1
+		Tree, 34, 21, 1
+		Tree, 19, 24, 1
+		Tree, 4, 15, 1
+		Tree, 11, 3, 1
+		Tree, 7, 3, 1
+		Tree, 4, 8, 1
+		Tree, 17, 10, 1
+		Tree, 16, 18, 1
+	\Tree
+<\Woald>
