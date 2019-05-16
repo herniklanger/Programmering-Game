@@ -72,11 +72,6 @@
     <Compile Include="Game Engen\WorldCreader.cs" />
     <Compile Include="Game\AppData\Database\DataBase.cs" />
     <Compile Include="Game\AppData\Database\Resource1.Designer.cs" />
-    <Compile Include="Game\AppData\DataStoric.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataStoric.resx</DependentUpon>
-    </Compile>
     <Compile Include="Game\Hotbar\Hotbar.cs" />
     <Compile Include="Game\Objekter\Store.cs" />
     <Compile Include="Game\Objekter\House.cs" />
@@ -85,7 +80,6 @@
     <Compile Include="Game\Objekter\Personer\Player.cs" />
     <Compile Include="Game\Objekter\Tree.cs" />
     <Compile Include="Game\Tasks\Task.cs" />
-    <Compile Include="Game\AppData\FileHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,10 +95,6 @@
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Game\AppData\Database\Resource1.resx" />
-    <EmbeddedResource Include="Game\AppData\DataStoric.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DataStoric.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
