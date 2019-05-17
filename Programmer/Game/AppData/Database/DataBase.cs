@@ -125,6 +125,7 @@ namespace Programmer.Game.AppData.Database
                     {
                         string s = variable + "";
                         s = s.Replace("'", "");
+                        s = s.Replace("\n", "''");
                         inset += "'" + s + "' ";
                     }
                     else
@@ -200,7 +201,7 @@ namespace Programmer.Game.AppData.Database
                     {
                         if (typer[cel].Equals("String") || typer[cel].Equals("Char"))
                         {
-                            newRow += "'" + cels[cel] + "' ";
+                            newRow += "'" + cels[cel].ToString().Replace("\n", "''") + "' ";
                         }
                         else
                         {
@@ -279,7 +280,7 @@ namespace Programmer.Game.AppData.Database
                 {
                     if (typer[y] == "String" || typer[y] == "Char")
                     {
-                        row += "'" + tablen[x, y] + "' ";
+                        row += "'" + tablen[x, y].ToString().Replace("\n", "''") + "' ";
                     }
                     else
                     {
@@ -369,11 +370,11 @@ namespace Programmer.Game.AppData.Database
                             linje = linje.Substring(linje.IndexOf(' ') + 1);
                             break;
                         case "String":
-                            tabellen[value, celle] = linje.Substring(1).Remove(linje.IndexOf("' ") - 1);
+                            tabellen[value, celle] = linje.Substring(1).Remove(linje.IndexOf("' ") - 1).Replace("''", "\n");
                             linje = linje.Substring(linje.IndexOf("' ") + 2);
                             break;
                         case "Char":
-                            tabellen[value, celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ") - 1));
+                            tabellen[value, celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ") - 1).Replace("''", "\n"));
                             linje = linje.Substring(linje.IndexOf("' ") + 2);
                             break;
                         default:
@@ -471,11 +472,11 @@ namespace Programmer.Game.AppData.Database
                                 linje = linje.Substring(linje.IndexOf(' ') + 1);
                                 break;
                             case "String":
-                                celler[celle] = linje.Substring(1).Remove(linje.IndexOf("' ") - 1);
+                                celler[celle] = linje.Substring(1).Remove(linje.IndexOf("' ") - 1).Replace("''", "\n");
                                 linje = linje.Substring(linje.IndexOf("' ") + 2);
                                 break;
                             case "Char":
-                                celler[celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ") - 1));
+                                celler[celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ") - 1).Replace("''", "\n"));
                                 linje = linje.Substring(linje.IndexOf("' ") + 2);
                                 break;
                             default:
