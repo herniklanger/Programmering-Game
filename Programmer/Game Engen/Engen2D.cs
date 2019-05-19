@@ -17,7 +17,7 @@ namespace Programmer.Game_Engen
         private Engen2D(int width, int heith) : base(width, heith)
         {
             Grid = Width / 50;
-            player = new Player("Henrik", 0, 0, null, null);
+            player = new Player("Henrik",0, 0, 0, null, null);
             objekter.Add(player);
             gameIsRinning = true;
             Random r = new Random();
@@ -93,7 +93,6 @@ namespace Programmer.Game_Engen
                 player.Direction = (Int16)(keyStrouck[68] ? 1 : player.Direction);
                 MumentBuffer = currentTime;
             }
-
         }
         private void Animation()
         {
