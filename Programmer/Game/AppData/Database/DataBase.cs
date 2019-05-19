@@ -14,6 +14,7 @@ namespace Programmer.Game.AppData.Database
         string Location;
         string Name { get; }
         const string DATABASE = "Database.txt";
+        string[,] replace = { { "'", "'a" }, { "\n", "'n" } };
         public DataBase(string DatabaseName)
         {
             Name = "\\" + DatabaseName;
@@ -23,6 +24,20 @@ namespace Programmer.Game.AppData.Database
                 Directory.CreateDirectory(Location + Name);
             }
             File.CreateText(Location + Name + DATABASE).Close();
+        }
+        private void Replace(ref string text)
+        {
+            for (int i = 0; i < replace.GetLength(0); i++)
+            {
+                text = text.ToString().Replace(replace[i, 0], replace[i, 1]);
+            }
+        }
+        private void UndoReplace(ref string text)
+        {
+            for (int i = 0; i < replace.GetLength(0); i++)
+            {
+                text = text.Replace(replace[i, 1], replace[i, 0]);
+            }
         }
         public void CreadTabel(string name, Type[] variabler, string[] Names, bool id)
         {
@@ -123,9 +138,8 @@ namespace Programmer.Game.AppData.Database
                 {
                     if (variable.GetType() == Type.GetType("System.String") || variable.GetType() == Type.GetType("System.Char"))
                     {
-                        string s = variable + "";
-                        s = s.Replace("'", "");
-                        s = s.Replace("\n", "''");
+                        string s = variable.ToString();
+                        Replace(ref s);
                         inset += "'" + s + "' ";
                     }
                     else
@@ -417,6 +431,7 @@ namespace Programmer.Game.AppData.Database
                     object[] celler = new object[colonner];
                     for (int celle = 0; celle < colonner; celle++)
                     {
+                        string s;
                         switch (typer[celle])
                         {
                             case "Boolean":
@@ -472,11 +487,15 @@ namespace Programmer.Game.AppData.Database
                                 linje = linje.Substring(linje.IndexOf(' ') + 1);
                                 break;
                             case "String":
-                                celler[celle] = linje.Substring(1).Remove(linje.IndexOf("' ") - 1).Replace("''", "\n");
+                                s = linje.Substring(1).Remove(linje.IndexOf("' ") - 1);
+                                UndoReplace(ref s);
+                                celler[celle] = s;
                                 linje = linje.Substring(linje.IndexOf("' ") + 2);
                                 break;
                             case "Char":
-                                celler[celle] = char.Parse(linje.Substring(1).Remove(linje.IndexOf("' ") - 1).Replace("''", "\n"));
+                                s = linje.Substring(1).Remove(linje.IndexOf("' ") - 1);
+                                Replace(ref s);
+                                celler[celle] = s[0];
                                 linje = linje.Substring(linje.IndexOf("' ") + 2);
                                 break;
                             default:
