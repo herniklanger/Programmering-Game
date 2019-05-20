@@ -11,14 +11,15 @@ namespace Programmer.Game.Objekter
     {
         public House(string name, int IthemID, int LocationX, int LocationY, int width, int height) : base(name, IthemID, LocationX, LocationY, width, height)
         {
+                
         }
         public virtual void Event(Ithem Kereatore)
         {
              
         }
-        public override string Save(string tab)
+        public override object[] Save()
         {
-            return tab+$"{Name}, {IthemID}, {X}, {Y}, {Width}, {Heith}";
+            return new object[] { Name, IthemID, X, Y, Width, Heith };
         }
         public override Ithem Copy()
         {

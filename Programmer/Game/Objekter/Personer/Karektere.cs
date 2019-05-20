@@ -23,31 +23,19 @@ namespace Programmer.Game.Objekter.Personer
             this.Houses = Houses;
             Worck = WorkPlace;
         }
+        public Karektere(object[] load) : base((string)load[0], (int)load[1], (int)load[2], (int)load[3])
+        {
+            speed = (int)load[5];
+            Houses = (int[])load[6];
+            Worck = (int[])load[7];
+        }
         public override Karektere GetKareakter()
         {
             return this;
         }
-        public override string Save(string tab)
+        public override object[] Save()
         {
-            string save = tab + $"{Name}, {IthemID}, {X},{Y},{speed}\n";
-            save += "<hus>\n";
-            tab += "\t";
-            foreach(int hus in Houses)
-            {
-                save += tab + hus+"\n";
-            }
-            tab = tab.Remove(tab.Length-1);
-            save += tab+"<\\hus>\n";
-            save += tab+"<Work>\n";
-            tab += "\t";
-            foreach(int work in Worck)
-            {
-                save += tab + work + "\n";
-            }
-            tab = tab.Remove(tab.Length - 1);
-            save += tab + "<\\Work>\n";
-            return save;
-
+            return new object[] {Name,IthemID,X,Y,speed,speed,Houses,task};
         }
         public virtual Player GetPlayer()
         {

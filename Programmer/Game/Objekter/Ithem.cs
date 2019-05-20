@@ -40,7 +40,7 @@ namespace Programmer.Game.Objekter
         {
             g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Heith);
         }
-        public abstract string Save(string tab);
+        public abstract object[] Save();
         public abstract Ithem Copy();
     }
 }

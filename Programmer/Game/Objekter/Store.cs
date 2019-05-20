@@ -14,14 +14,9 @@ namespace Programmer.Game.Objekter
         {
             this.stock = stock;
         }
-        public override string Save(string tab)
+        public override object[] Save()
         {
-            string Save = tab + $"{IthemID}, { X}, { Y}, { Width}, { Heith},{{";
-            foreach(string stuck in stock)
-            {
-                Save += stuck +", ";
-            }
-            return Save.Remove(Save.Length-2)+"}";
+            return new object[] { IthemID, X, Y, Width, Heith, stock };
         }
         public override Ithem Copy()
         {
