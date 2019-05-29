@@ -8,20 +8,23 @@ namespace Programmer.Game.Objekter
 {
     class Tree : Ithem
     {
-        public Tree(string Name, int IthemID, int X,int Y, int Width):base(Name, IthemID, X, Y,Width,Width)
+        public Tree(int IthemID, string Name, int X, int Y, int Width) : base(Name, IthemID, X, Y, Width, Width)
         {
 
         }
         public override Ithem Copy()
         {
-            Ithem I = new Tree(Name, IthemID, X, Y, Width);
+            Ithem I = new Tree(IthemID, Name, X, Y, Width);
             return I;
         }
 
-        public override string Save(string tab)
+        public override object[] Save()
         {
-            string s = tab + $"{Name}, {IthemID}, {X}, {Y}, {Width}";
-            return s;
+            return new object[] { IthemID, Name, X, Y, Width };
+        }
+        public override string[] ValuseName()
+        {
+            return new string[] { "IthemID", "Name", "X", "Y", "Width" };
         }
     }
 }

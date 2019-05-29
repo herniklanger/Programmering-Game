@@ -18,6 +18,10 @@ namespace Programmer.Game.Objekter
         {
             return new object[] { IthemID, X, Y, Width, Heith, stock };
         }
+        public override string[] ValuseName()
+        {
+            return new string[] { "IthemID", "X", "Y", "Width", "Heith", "stock" };
+        }
         public override Ithem Copy()
         {
             string[] stock = null;

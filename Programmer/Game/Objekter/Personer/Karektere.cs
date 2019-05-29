@@ -17,7 +17,7 @@ namespace Programmer.Game.Objekter.Personer
         public int Muvment { get; private set; }
         private int speed; 
         public Int16 Direction { get; set; }
-        public Karektere(String name, int IthemID, int x, int y, int speed,int[] Houses,int[] WorkPlace) : base(name, IthemID, x, y)
+        public Karektere(int IthemID, string name, int x, int y, int speed,int[] Houses,int[] WorkPlace) : base(name, IthemID, x, y)
         {
             this.speed = speed;
             this.Houses = Houses;
@@ -35,7 +35,11 @@ namespace Programmer.Game.Objekter.Personer
         }
         public override object[] Save()
         {
-            return new object[] {Name,IthemID,X,Y,speed,speed,Houses,task};
+            return new object[] {IthemID, Name, X, Y, speed, speed, Houses, task};
+        }
+        public override string[] ValuseName()
+        {
+            return new string[] { "IthemID", "Name", "X", "Y", "speed", "speed", "Houses", "task" };
         }
         public virtual Player GetPlayer()
         {

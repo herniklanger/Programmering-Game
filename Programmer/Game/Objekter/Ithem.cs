@@ -41,6 +41,7 @@ namespace Programmer.Game.Objekter
             g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Heith);
         }
         public abstract object[] Save();
+        public abstract string[] ValuseName();
         public abstract Ithem Copy();
     }
 }

@@ -70,8 +70,8 @@
     <Compile Include="Game Engen\Engen2D.cs" />
     <Compile Include="Game Engen\Patton Reginishen\PattonReginishen.cs" />
     <Compile Include="Game Engen\WorldCreader.cs" />
+    <Compile Include="Game\AppData\DataBaseHandling.cs" />
     <Compile Include="Game\AppData\Database\DataBase.cs" />
-    <Compile Include="Game\AppData\Database\Resource1.Designer.cs" />
     <Compile Include="Game\Hotbar\Hotbar.cs" />
     <Compile Include="Game\Objekter\Store.cs" />
     <Compile Include="Game\Objekter\House.cs" />
@@ -94,7 +94,6 @@
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Game\AppData\Database\Resource1.resx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

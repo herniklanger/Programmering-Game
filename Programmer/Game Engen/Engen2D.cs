@@ -3,6 +3,7 @@ using Programmer.Game.Objekter.Personer;
 using System;
 using System.Drawing;
 using System.Threading;
+using Programmer.Game.AppData;
 
 namespace Programmer.Game_Engen
 {
@@ -17,8 +18,9 @@ namespace Programmer.Game_Engen
         private Engen2D(int width, int heith) : base(width, heith)
         {
             Grid = Width / 50;
-            player = new Player("Henrik",0, 0, 0, null, null);
+            player = new Player(-1, "Henrik",0, 0, null, null);
             objekter.Add(player);
+            objekter.AddRange(DataBaseHandling.Iniselise().Load());
             gameIsRinning = true;
             Random r = new Random();
         }
