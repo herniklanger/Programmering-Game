@@ -292,7 +292,7 @@ namespace Programmer.Game.AppData.Database
             string[] fil = File.ReadAllLines(Location + Name + file);
             bool ContainsID = fil[0].Contains("True");
             int columonsCount = fil[2].Count(f => f == ' ');
-            string columName = fil[2];
+            string columName = " " + fil[2];
             int[] columNummer = new int[colonums.Length];
             // typer
             string[] typer = new string[columonsCount];
@@ -305,7 +305,7 @@ namespace Programmer.Game.AppData.Database
             //Omformer colonums to verdi
             for (int i = 0; i < columNummer.Length; i++)
             {
-                columNummer[i] = columName.Remove(columName.IndexOf(colonums[i])).Count(f => f == ' ');
+                columNummer[i] = columName.Remove(columName.IndexOf(" " + colonums[i] + " ")).Count(f => f == ' ');
             }
             for (int i = 0; i < columNummer.Length; i++)
             {

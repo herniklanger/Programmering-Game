@@ -1,40 +1,13 @@
-IDvalue = True 35
+IDvalue = True 8
 UInt32 String Int32 Int32 Int32 
 IDName Name X Y Width 
 <Tree>
-0 'Tree' 7 6 2 
-1 'Tree' 27 8 2 
-2 'Tree' 19 9 2 
-3 'Tree' 11 18 2 
-4 'Tree' 33 15 2 
-5 'Tree' 38 3 2 
-6 'Tree' 10 5 2 
-7 'Tree' 40 23 2 
-8 'Tree' 47 8 2 
-9 'Tree' 28 4 2 
-10 'Tree' 20 21 2 
-11 'Tree' 3 12 2 
-12 'Tree' 10 11 4 
-13 'Tree' 20 1 4 
-14 'Tree' 27 18 4 
-15 'Tree' 48 20 4 
-16 'Tree' 4 8 1 
-17 'Tree' 12 2 1 
-18 'Tree' 18 4 1 
-19 'Tree' 16 20 1 
-20 'Tree' 21 17 1 
-21 'Tree' 29 9 1 
-22 'Tree' 24 11 1 
-23 'Tree' 30 14 1 
-24 'Tree' 26 25 1 
-25 'Tree' 40 12 1 
-26 'Tree' 36 8 1 
-27 'Tree' 48 5 1 
-28 'Tree' 45 18 1 
-29 'Tree' 38 20 1 
-30 'Tree' 9 24 1 
-31 'Tree' 3 23 1 
-32 'Tree' 4 19 1 
-33 'Tree' 15 25 1 
-34 'Tree' 7 4 1 
+0 'Tree' 26 16 3 
+1 'Tree' 29 10 1 
+2 'Tree' 30 13 1 
+3 'Tree' 21 18 1 
+4 'Tree' 26 22 1 
+5 'Tree' 33 20 1 
+6 'Tree' 24 12 1 
+7 'Tree' 22 15 1 
 <\Tree>

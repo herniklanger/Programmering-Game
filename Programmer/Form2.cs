@@ -29,6 +29,7 @@ namespace Programmer
             };
             GetIthem = (int X, int Y) =>
             {
+                Console.WriteLine(X + " and " + Y);
                 Ithem i = selected.Copy();
                 i.SetLocation(X, Y);
                 return i;

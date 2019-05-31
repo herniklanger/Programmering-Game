@@ -9,11 +9,16 @@ namespace Programmer.Game_Engen
 {
     class WorldCreader : Engen
     {
+        private int MustStartX { get; set; }
+        private int MustStartY { get; set; }
+        private bool muving = false;
         public static Form1 form;
         private static Form2 selectore;
         private static WorldCreader instans;
         private WorldCreader(int width, int heith) : base(width, heith)
         {
+            MustStartX = -1;
+            gameIsRinning = true;
             selectore = new Form2();
             selectore.Show();
             objekter.AddRange(DataBaseHandling.Iniselise().Load());
@@ -53,35 +58,66 @@ namespace Programmer.Game_Engen
             selectore.Visible = true;
             return null;
         }
+
         internal override void Game()
         {
             bool LeftClik = false;
-            while (true)
+            double ofsetX = 0;
+            double ofsetY = 0;
+            while (gameIsRinning)
             {
-                if (LeftClik && !mouseLeft)
+                lock (mouseLeftLock)
                 {
-                    if (MouseX >= 0 && MouseX < 20 && MouseY >= 0 && MouseY < 20)
+                    if (mouseLeft && !LeftClik)
                     {
-                        DataBaseHandling.Iniselise().Save(objekter.ToArray());
-                        selectore.Invoke(selectore.Clos);
-                        form.Game();
-                        instans = null;
+                        MustStartX = MouseX;
+                        MustStartY = MouseY;
                     }
-                    else
+                    if ((MustStartX != -1 && ((MouseX - MustStartX) * (MouseX - MustStartX) + (MouseY - MustStartY)*(MouseY - MustStartY))>4) || muving)
                     {
-                        lock (objektLock)
+                        if (!muving)
                         {
-                            Console.WriteLine("TryToPlace");
-                            object place = selectore.GetIthem((Grid == 0 ? 0 : MouseX / Grid), (Grid == 0 ? 0 : MouseY / Grid));
-                            if (place != null)
-                            {
-                                objekter.Add((Ithem)place);
-                            }
-                            //Place(new House("House",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
+                            muving = true;
                         }
+                        ofsetX += (MouseX - MustStartX) / (Grid + 0.0);
+                        ofsetY += (MouseY - MustStartY) / (Grid + 0.0);
+                        ScreenX += (int)ofsetX;
+                        ScreenY += (int)ofsetY;
+                        ofsetX -= (int)ofsetX;
+                        ofsetY -= (int)ofsetY;
+                        MustStartX = MouseX;
+                        MustStartY = MouseY;
                     }
+                    if (LeftClik && !mouseLeft)
+                    {
+
+                        MustStartX = -1;
+                        //knap
+                        if (MouseX >= 0 && MouseX < 20 && MouseY >= 0 && MouseY < 20)
+                        {
+                            DataBaseHandling.Iniselise().Save(objekter.ToArray());
+                            selectore.Invoke(selectore.Clos);
+                            form.Game();
+                            instans = null;
+                            gameIsRinning = false;
+                        }
+                        else if (!muving)
+                        {
+                            lock (objektLock)
+                            {
+                                Console.WriteLine("TryToPlace");
+                                object place = selectore.GetIthem((Grid == 0 ? 0 - ScreenX : MouseX / Grid - ScreenX), (Grid == 0 ? 0 - ScreenY : MouseY / Grid - ScreenY));
+                                if (place != null)
+                                {
+                                    objekter.Add((Ithem)place);
+                                }
+                                //Place(new House("House",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
+                            }
+                        }
+                        muving = false;
+                    }
+                    LeftClik = mouseLeft;
                 }
-                LeftClik = mouseLeft;
                 Thread.Sleep(1);
             }
         }

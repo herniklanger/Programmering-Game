@@ -18,11 +18,10 @@ namespace Programmer.Game_Engen
         private Engen2D(int width, int heith) : base(width, heith)
         {
             Grid = Width / 50;
+            objekter.AddRange(DataBaseHandling.Iniselise().Load());
             player = new Player(-1, "Henrik",0, 0, null, null);
             objekter.Add(player);
-            objekter.AddRange(DataBaseHandling.Iniselise().Load());
             gameIsRinning = true;
-            Random r = new Random();
         }
         public static Engen2D Engenen2D(int width = 600, int heith = 800)
         {
@@ -41,7 +40,7 @@ namespace Programmer.Game_Engen
         {
             for (int i = 0; i < objekter.Count; i++)
             {
-                objekter[i].Draw(g, ScreenX, ScreenY, Grid, Grid);
+                objekter[i].Draw(g, (int)ScreenX, (int)ScreenY, Grid, Grid);
             }
         }
         internal override void Game()
@@ -83,6 +82,7 @@ namespace Programmer.Game_Engen
         private long MumentBuffer = 0;
         public void render()
         {
+            Console.WriteLine(player.X + " and " + player.Y);
             ScreenX += player.X + ScreenX > 3 + Width / (Grid * 2) ? -1 : 0;
             ScreenX += player.X + ScreenX < -3 + Width / (Grid * 2) ? 1 : 0;
             ScreenY += player.Y + ScreenY > 3 + Heith / (Grid * 2) ? -1 : 0;

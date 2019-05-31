@@ -64,9 +64,12 @@ namespace Programmer
         {
             if(e.Button == MouseButtons.Left)
             {
-                game.mouseLeft = true;
-                game.MouseX = e.X;
-                game.MouseY = e.Y;
+                lock(game.mouseLeftLock)
+                {
+                    game.mouseLeft = true;
+                    game.MouseX = e.X;
+                    game.MouseY = e.Y;
+                }
             }else if(e.Button == MouseButtons.Right)
             {
                 Console.WriteLine("R");
@@ -79,7 +82,10 @@ namespace Programmer
         {
             if (e.Button == MouseButtons.Left)
             {
-                game.mouseLeft = false;
+                lock(game.mouseLeftLock)
+                {
+                    game.mouseLeft = false;
+                }
             }
             else if (e.Button == MouseButtons.Right)
             {

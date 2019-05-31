@@ -19,13 +19,15 @@ namespace Programmer.Game_Engen
         public int MouseX { get; set; }
         public int MouseY { get; set; }
         internal bool gameIsRinning = false;
-        public bool mouseLeft = false;
+        public object mouseLeftLock = new object();
+        public bool mouseLeft { get; set; }
         public bool mouseRith = false;
         public int Grid { get; internal set; }
         internal List<Ithem> objekter = new List<Ithem>(); internal readonly object objektLock = new object();
         private Thread game;
         public Engen(int width, int heith)
         {
+            mouseLeft = false;
             keyStrouck = new bool[256];
             Width = width;
             Heith = heith;

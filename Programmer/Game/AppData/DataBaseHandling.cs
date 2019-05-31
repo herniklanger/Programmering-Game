@@ -35,7 +35,7 @@ namespace Programmer.Game.AppData
                     List<object> lis = ithem.ToList();
                     lis.RemoveAt(0);
                     ithem = lis.ToArray();
-                    if (tabelsName.Contains(save.GetType().Name))
+                    if (!tabelsName.Contains(obj.GetType().Name))
                     {
 
                         Type[] type = new Type[ithem.Length];
