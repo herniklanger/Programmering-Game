@@ -6,18 +6,12 @@ using System.Threading.Tasks;
 
 namespace Programmer.Game.Objekter
 {
-    class Tree : Ithem
+    class Tree : Ithems
     {
         public Tree(int IthemID, string Name, int X, int Y, int Width) : base(Name, IthemID, X, Y, Width, Width)
         {
 
         }
-        public override Ithem Copy()
-        {
-            Ithem I = new Tree(IthemID, Name, X, Y, Width);
-            return I;
-        }
-
         public override object[] Save()
         {
             return new object[] { IthemID, Name, X, Y, Width };
@@ -25,6 +19,11 @@ namespace Programmer.Game.Objekter
         public override string[] ValuseName()
         {
             return new string[] { "IthemID", "Name", "X", "Y", "Width" };
+        }
+        public override Ithems Copy(int id = -1)
+        {
+            Ithems I = new Tree(id == -1 ? IthemID : id, Name, X, Y, Width);
+            return I;
         }
     }
 }

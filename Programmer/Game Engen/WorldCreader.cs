@@ -24,6 +24,13 @@ namespace Programmer.Game_Engen
             objekter.AddRange(DataBaseHandling.Iniselise().Load());
             //objekter.Add(new Player(-1, "Henrik",0, 0, new int[0],new int[0]));
         }
+        /// <summary>
+        /// Get the Instans of the WorldCreader so there only can be one
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="width"></param>
+        /// <param name="heith"></param>
+        /// <returns></returns>
         public static WorldCreader Instans(Form1 f, int width = 600, int heith = 800)
         {
             form = f;
@@ -33,6 +40,14 @@ namespace Programmer.Game_Engen
             }
             return instans;
         }
+        public static WorldCreader Instans()
+        {
+            return instans;
+        }
+        /// <summary>
+        /// Wrtiting the game
+        /// </summary>
+        /// <param name="g"></param>
         public override void Garphish(Graphics g)
         {
             g.DrawRectangle(new Pen(Color.Black), 0, 0, 20, 20);
@@ -40,28 +55,36 @@ namespace Programmer.Game_Engen
             selectore.DrawSelected(g, (Grid == 0 ? 0 : MouseX / Grid) - 1, (Grid == 0 ? 0 : MouseY / Grid) - 1, Grid);
             lock (objektLock)
             {
-                foreach (Ithem i in objekter)
+                foreach (Ithems i in objekter)
                 {
                     i.Draw(g, ScreenX, ScreenY, Grid, Grid);
                 }
             }
         }
-        public override Ithem IsThisfealtEmty(int x, int y)
+        /// <summary>
+        /// tjeking the fealt emtines 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public override Ithems IsThisfealtEmty(int x, int y)
         {
-            foreach (Ithem ithem in objekter)
+            foreach (Ithems ithem in objekter)
             {
                 if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y && ithem.Y + ithem.Heith > y)
                 {
                     return ithem;
                 }
             }
-            selectore.Visible = true;
             return null;
         }
-
+        /// <summary>
+        /// Updating the game
+        /// </summary>
         internal override void Game()
         {
             bool LeftClik = false;
+            bool RithClik = false;
             double ofsetX = 0;
             double ofsetY = 0;
             while (gameIsRinning)
@@ -101,31 +124,22 @@ namespace Programmer.Game_Engen
                             instans = null;
                             gameIsRinning = false;
                         }
-                        else if (!muving)
-                        {
-                            lock (objektLock)
-                            {
-                                Console.WriteLine("TryToPlace");
-                                object place = selectore.GetIthem((Grid == 0 ? 0 - ScreenX : MouseX / Grid - ScreenX), (Grid == 0 ? 0 - ScreenY : MouseY / Grid - ScreenY));
-                                if (place != null)
-                                {
-                                    objekter.Add((Ithem)place);
-                                }
-                                //Place(new House("House",(MouseX / Grid) + ScreenX, (MouseY / Grid) + ScreenY, 8, 5));
-                            }
-                        }
-                        muving = false;
                     }
                     LeftClik = mouseLeft;
+                    RithClik = mouseRith;
                 }
                 Thread.Sleep(1);
             }
         }
-        public void Place(Ithem ithem)
+        /// <summary>
+        /// Try to plac 
+        /// </summary>
+        /// <param name="ithem"></param>
+        public void Place(Ithems ithem)
         {
-            for (int x = 0; x > ithem.Width; x++)
+            for (int x = 0; x < ithem.Width; x++)
             {
-                for (int y = 0; y > ithem.Heith; y++)
+                for (int y = 0; y < ithem.Heith; y++)
                 {
                     if (null == IsThisfealtEmty(x + ithem.X, y + ithem.Y))
                     {
@@ -134,7 +148,7 @@ namespace Programmer.Game_Engen
                     }
                 }
             }
-            objekter.Add(ithem);
+            objekter.Add(i);
         }
     }
 }

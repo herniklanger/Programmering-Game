@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 namespace Programmer.Game.Objekter
 {
-    abstract class Ithem
+    abstract class Ithems
     {
         public int IthemID { get; }
         private Image Person;
@@ -11,9 +11,9 @@ namespace Programmer.Game.Objekter
         public int Y { get; internal set; }
         public int Width { get; internal set; }
         public int Heith { get; internal set; }
-        public String Name { get; internal set; }
+        public String Name { get; set; }
         public int RunMument { get; set; }
-        public Ithem(String name,int IthemID, int LocationX, int LocationY, int width = 1, int height = 1)
+        public Ithems(String name, int IthemID, int LocationX, int LocationY, int width = 1, int height = 1)
         {
             this.IthemID = IthemID;
             X = LocationX;
@@ -23,6 +23,11 @@ namespace Programmer.Game.Objekter
             Name = name;
             RunMument = 0;
         }
+        /// <summary>
+        /// updating the locations values
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SetLocation(int x, int y)
         {
             X = x;
@@ -36,12 +41,32 @@ namespace Programmer.Game.Objekter
         {
 
         }
+        /// <summary>
+        /// Draw the Ithem
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="screenX"></param>
+        /// <param name="screenY"></param>
+        /// <param name="GridWidth"></param>
+        /// <param name="GridtHeith"></param>
         public virtual void Draw(Graphics g, int screenX, int screenY, int GridWidth, int GridtHeith)
         {
             g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), (X + screenX) * GridWidth, (Y + screenY) * GridtHeith, GridWidth * Width, GridtHeith * Heith);
         }
+        /// <summary>
+        /// returne the valuse for saving in the txt database
+        /// </summary>
+        /// <returns></returns>
         public abstract object[] Save();
+        /// <summary>
+        /// return the names of the waluse for columns of a database
+        /// </summary>
+        /// <returns></returns>
         public abstract string[] ValuseName();
-        public abstract Ithem Copy();
+        /// <summary>
+        /// Make a hard copy of the object
+        /// </summary>
+        /// <returns></returns>
+        public abstract Ithems Copy(int id = -1);
     }
 }

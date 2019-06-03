@@ -23,7 +23,7 @@ namespace Programmer.Game_Engen
         public bool mouseLeft { get; set; }
         public bool mouseRith = false;
         public int Grid { get; internal set; }
-        internal List<Ithem> objekter = new List<Ithem>(); internal readonly object objektLock = new object();
+        internal List<Ithems> objekter = new List<Ithems>(); internal readonly object objektLock = new object();
         private Thread game;
         public Engen(int width, int heith)
         {
@@ -50,6 +50,6 @@ namespace Programmer.Game_Engen
         }
         internal abstract void Game();
         public abstract void Garphish(Graphics g);
-        public abstract Ithem IsThisfealtEmty(int x, int y);
+        public abstract Ithems IsThisfealtEmty(int x, int y);
     }
 }

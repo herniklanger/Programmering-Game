@@ -15,7 +15,7 @@ namespace Programmer.Game.Objekter.Personer
             
         }
 
-        public override Ithem Copy()
+        public override Ithems Copy(int id = -1)
         {
             return this;
         }

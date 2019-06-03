@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Programmer.Game.Objekter
 {
-    class Store : Ithem
+    class Store : Ithems
     {
         string[] stock;
 
@@ -22,7 +22,7 @@ namespace Programmer.Game.Objekter
         {
             return new string[] { "IthemID", "X", "Y", "Width", "Heith", "stock" };
         }
-        public override Ithem Copy()
+        public override Ithems Copy(int id = -1)
         {
             string[] stock = null;
             if(this.stock != null)
@@ -33,7 +33,7 @@ namespace Programmer.Game.Objekter
                     stock[i] = this.stock[i];
                 }
             }
-            return new Store(IthemID, X, Y,Width,Heith,stock);
+            return new Store(id == -1 ? IthemID : id, X, Y,Width,Heith,stock);
         }
     }
 }

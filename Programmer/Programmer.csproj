@@ -46,6 +46,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,13 +70,16 @@
     <Compile Include="Game Engen\Engen.cs" />
     <Compile Include="Game Engen\Engen2D.cs" />
     <Compile Include="Game Engen\Patton Reginishen\PattonReginishen.cs" />
+    <Compile Include="Game Engen\PlaceObjects\Place.cs" />
+    <Compile Include="Game Engen\PlaceObjects\SuberPlace.cs" />
     <Compile Include="Game Engen\WorldCreader.cs" />
     <Compile Include="Game\AppData\DataBaseHandling.cs" />
     <Compile Include="Game\AppData\Database\DataBase.cs" />
     <Compile Include="Game\Hotbar\Hotbar.cs" />
+    <Compile Include="Game\Objekter\InventoryIthem.cs" />
     <Compile Include="Game\Objekter\Store.cs" />
     <Compile Include="Game\Objekter\House.cs" />
-    <Compile Include="Game\Objekter\Ithem.cs" />
+    <Compile Include="Game\Objekter\Ithems.cs" />
     <Compile Include="Game\Objekter\Personer\Karektere.cs" />
     <Compile Include="Game\Objekter\Personer\Player.cs" />
     <Compile Include="Game\Objekter\Tree.cs" />

@@ -32,14 +32,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.Width = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.Height = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Width)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Height)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // Ithems
@@ -82,14 +82,6 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Ithem";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 134);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(261, 293);
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            // 
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(145, 74);
@@ -104,16 +96,47 @@
             // Width
             // 
             this.Width.Location = new System.Drawing.Point(9, 32);
+            this.Width.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.Width.Name = "Width";
             this.Width.Size = new System.Drawing.Size(120, 20);
             this.Width.TabIndex = 8;
+            this.Width.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Width.ValueChanged += new System.EventHandler(this.Ithems_SelectedIndexChanged);
             // 
-            // numericUpDown1
+            // Height
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(145, 32);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 9;
+            this.Height.Location = new System.Drawing.Point(145, 32);
+            this.Height.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Height.Name = "Height";
+            this.Height.Size = new System.Drawing.Size(120, 20);
+            this.Height.TabIndex = 9;
+            this.Height.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Height.ValueChanged += new System.EventHandler(this.Ithems_SelectedIndexChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Location = new System.Drawing.Point(9, 125);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(264, 318);
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
             // 
             // Form2
             // 
@@ -121,10 +144,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(285, 455);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.Height);
             this.Controls.Add(this.Width);
             this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -132,10 +155,11 @@
             this.Name = "Form2";
             this.ShowIcon = false;
             this.Text = "Form2";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Width)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Height)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -147,9 +171,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.NumericUpDown Width;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        public System.Windows.Forms.NumericUpDown Width;
+        public System.Windows.Forms.NumericUpDown Height;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -10,7 +10,7 @@ namespace Programmer.Game.AppData
 {
     class DataBaseHandling
     {
-        public static DataBaseHandling instanse = null;
+        private static DataBaseHandling instanse = null;
         DataBase db;
         private DataBaseHandling()
         {
@@ -24,10 +24,10 @@ namespace Programmer.Game.AppData
             }
             return instanse;
         }
-        public void Save(Ithem[] save)
+        public void Save(Ithems[] save)
         {
             string[] tabelsName = db.GetTablesList();
-            foreach (Ithem obj in save)
+            foreach (Ithems obj in save)
             {
                 object[] ithem = obj.Save();
                 if ((int)ithem[0] == -1)
@@ -37,7 +37,6 @@ namespace Programmer.Game.AppData
                     ithem = lis.ToArray();
                     if (!tabelsName.Contains(obj.GetType().Name))
                     {
-
                         Type[] type = new Type[ithem.Length];
                         List<string> columsNames = obj.ValuseName().ToList();
                         columsNames.RemoveAt(0);
@@ -63,9 +62,48 @@ namespace Programmer.Game.AppData
                 }
             }
         }
-        public List<Ithem> Load()
+        public int Save(Ithems save)
         {
-            List<Ithem> ith = new List<Ithem>();
+            string[] tabelsName = db.GetTablesList();
+            object[] ithem = save.Save();
+            int id =0;
+            if ((int)ithem[0] == -1)
+            {
+                List<object> lis = ithem.ToList();
+                lis.RemoveAt(0);
+                ithem = lis.ToArray();
+                if (!tabelsName.Contains(save.GetType().Name))
+                {
+
+                    Type[] type = new Type[ithem.Length];
+                    List<string> columsNames = save.ValuseName().ToList();
+                    columsNames.RemoveAt(0);
+                    for (int i = 0; i < type.Length; i++)
+                    {
+                        type[i] = ithem[i].GetType();
+                    }
+                    db.CreadTabel(save.GetType().Name, type, columsNames.ToArray(), true, null);
+                    tabelsName = db.GetTablesList();
+                }
+                id = db.AddToTabel(save.GetType().Name, ithem);
+            }
+            else
+            {
+                id = (int)ithem[0];
+                List<object> lis = ithem.ToList();
+                lis.RemoveAt(0);
+                ithem = lis.ToArray();
+
+                List<string> columsNames = save.ValuseName().ToList();
+                columsNames.RemoveAt(0);
+
+                db.UpdateVariable(columsNames.ToArray(), ithem, (uint)id, save.GetType().Name);
+            }
+            return id;
+        }
+        public List<Ithems> Load()
+        {
+            List<Ithems> ith = new List<Ithems>();
             string[] tabels = db.GetTablesList();
             foreach(string table in tabels)
             {

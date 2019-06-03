@@ -7,7 +7,7 @@ using Programmer.Game.Tasks;
 
 namespace Programmer.Game.Objekter.Personer
 {
-    abstract class Karektere : Ithem
+    abstract class Karektere : Ithems
     {
         private Image[] Person= new Image[1];
         public int notAbleToMuve = 0;
@@ -50,7 +50,7 @@ namespace Programmer.Game.Objekter.Personer
             if(muve%speed ==0)
             {
                 Console.WriteLine("Direction is " + Direction);
-                Ithem head =null;
+                Ithems head =null;
                 switch(Direction)
                 {
                     case 1:

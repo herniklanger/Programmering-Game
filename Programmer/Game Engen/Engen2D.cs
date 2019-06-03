@@ -110,9 +110,9 @@ namespace Programmer.Game_Engen
                 }
             }
         }
-        public override Ithem IsThisfealtEmty(int x, int y)
+        public override Ithems IsThisfealtEmty(int x, int y)
         {
-            foreach (Ithem ithem in objekter)
+            foreach (Ithems ithem in objekter)
             {
                 if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y && ithem.Y + ithem.Heith > y)
                 {
@@ -123,7 +123,7 @@ namespace Programmer.Game_Engen
         }
         public bool IthemInNextSpot(int x, int y)
         {
-            foreach (Ithem ithem in objekter)
+            foreach (Ithems ithem in objekter)
             {
                 if (ithem.X <= x && ithem.X + ithem.Width > x && ithem.Y <= y && ithem.Y + ithem.Heith > y)
                 {

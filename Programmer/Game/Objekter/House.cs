@@ -7,13 +7,13 @@ using System.IO;
 
 namespace Programmer.Game.Objekter
 {
-    class House : Ithem
+    class House : Ithems
     {
         public House(int IthemID, string name, int LocationX, int LocationY, int width, int height) : base(name, IthemID, LocationX, LocationY, width, height)
         {
 
         }
-        public virtual void Event(Ithem Kereatore)
+        public virtual void Event(Ithems Kereatore)
         {
 
         }
@@ -25,9 +25,9 @@ namespace Programmer.Game.Objekter
         {
             return new string[] { "IthemID", "Name", "X", "Y", "Width", "Heith" };
         }
-        public override Ithem Copy()
+        public override Ithems Copy(int id = -1)
         {
-            return new House(IthemID, Name, 0, 0, Width, Heith);
+            return new House(id == -1 ? IthemID : id, Name, 0, 0, Width, Heith);
         }
     }
 }
