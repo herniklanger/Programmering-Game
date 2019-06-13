@@ -32,65 +32,38 @@ namespace Programmer
         public delegate void Despose();
         public Despose Clos;
 
-        private Ithems selected;
+        public delegate object GetValue();
+        public GetValue GetComboBoxText;
+        public GetValue GetWidth;
+        public GetValue GetHeight;
         public Form2()
         {
+
             DrawSelected = (Graphics g, int X, int Y, int Gridt) =>
             {
-                if (null != selected)
+                switch (Ithems.SelectedItem)
                 {
-                    Console.WriteLine(selected.IthemID);
-                    selected.Draw(g, (-selected.X) + X + 1, (-selected.Y) + Y + 1, Gridt, Gridt);
+                    case "Tree":
+                        g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), X, Y, (int)Width.Value*Gridt, (int)Width.Value * Gridt);
+                        break;
+                    case "Store":
+                        g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), X, Y, (int)Width.Value * Gridt, (int)Height.Value * Gridt);
+                        break;
                 }
             };
             Clos = () =>
             {
                 Close();
             };
+
+            GetComboBoxText = () => { return Ithems.SelectedItem.ToString(); };
+            GetWidth = () => { return Width.Value; };
+            GetHeight = () => { return Height.Value; };
+
             InitializeComponent();
             Ithems.SelectedIndex = 0;
             Height.Value = 1;
             Width.Value = 1;
-        }
-        /// <summary>
-        /// return the walue if the heith walue
-        /// </summary>
-        /// <returns></returns>
-        private int GetHeigth()
-        {
-            string number = "";
-            foreach (char remuve in Height.Text)
-            {
-                if ("1234567890".Contains(remuve))
-                {
-                    number += remuve;
-                }
-            }
-            if (number.Length == 0)
-            {
-                number = "0";
-            }
-            return int.Parse(number);
-        }
-        /// <summary>
-        /// return the withe walue
-        /// </summary>
-        /// <returns></returns>
-        private int GetWidth()
-        {
-            string number = "";
-            foreach (char remuve in Width.Text)
-            {
-                if ("1234567890".Contains(remuve))
-                {
-                    number += remuve;
-                }
-            }
-            if (number.Length == 0)
-            {
-                number = "0";
-            }
-            return int.Parse(number);
         }
         /// <summary>
         /// uodater the selected ithe samt the pree wiew
@@ -100,27 +73,8 @@ namespace Programmer
         private void Ithems_SelectedIndexChanged(object sender, EventArgs e)
         {
             Graphics g = pictureBox1.CreateGraphics();
-            if (selected == null || selected.IthemID == -1)
-            {
-                Console.WriteLine(Ithems.SelectedValue);
-                switch(Ithems.SelectedItem)
-                {
-                    case "Tree":
-                        selected = new Tree(-1,"Tree",1,1,GetWidth());
-                        break;
-                    case "Store":
-                        selected = new Store(-1, 1, 1, GetWidth(), GetHeigth(),new string[0]);
-                        break;
-                    default:
-                        Ithems.SelectedIndex = 0;
-                        Ithems_SelectedIndexChanged(sender, e);
-                        break;
-                }
-            }
-            if(selected != null)
-            {
-                selected.Draw(g, -selected.X+1, -selected.Y+1, trackBar1.Value, trackBar1.Value);
-            }
+            g.Clear(Color.White);
+            DrawSelected(g, 1, 1, trackBar1.Value);
         }
         /// <summary>
         /// when loading

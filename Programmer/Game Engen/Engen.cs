@@ -11,6 +11,7 @@ namespace Programmer.Game_Engen
 {
     abstract class Engen
     {
+        public object keyStrouckLock = new object();
         public bool[] keyStrouck;
         public int Width { get; internal set; }
         public int Heith { get; internal set; }
@@ -20,6 +21,7 @@ namespace Programmer.Game_Engen
         public int MouseY { get; set; }
         internal bool gameIsRinning = false;
         public object mouseLeftLock = new object();
+        public object mouseRithLock = new object();
         public bool mouseLeft { get; set; }
         public bool mouseRith = false;
         public int Grid { get; internal set; }
@@ -27,6 +29,7 @@ namespace Programmer.Game_Engen
         private Thread game;
         public Engen(int width, int heith)
         {
+            gameIsRinning = true;
             mouseLeft = false;
             keyStrouck = new bool[256];
             Width = width;

@@ -8,8 +8,8 @@ namespace Programmer.Game_Engen.PlaceObjects
 {
     abstract class SuberPlace
     {
-        private static Stack<SuberPlace> History;
-        private static Stack<SuberPlace> RedoHistory;
+        protected static Stack<SuberPlace> History;
+        protected static Stack<SuberPlace> RedoHistory;
         public static Form2 info;
         public SuberPlace()
         {
@@ -22,23 +22,25 @@ namespace Programmer.Game_Engen.PlaceObjects
         }
         public static void Undo()
         {
-            if(RedoHistory == null)
+            if(History != null)
             {
-                RedoHistory = new Stack<SuberPlace>();
+                if(RedoHistory == null)
+                {
+                    RedoHistory = new Stack<SuberPlace>();
+                }
+                History.Peek().UndoThem();
+                RedoHistory.Push(History.Pop());
             }
-            History.Peek().UndoThem();
-            RedoHistory.Push(History.Pop());
         }
         protected abstract void UndoThem();
         public static void Redo()
         {
-            if (History == null)
+            if(RedoHistory != null && RedoHistory.Count > 0)
             {
-                History = new Stack<SuberPlace>();
+                RedoHistory.Peek().DoIt();
+                History.Push(RedoHistory.Pop());
             }
-            RedoHistory.Peek().RedoThem();
-            History.Push(RedoHistory.Pop());
         }
-        protected abstract void RedoThem();
+        protected abstract void DoIt();
     }
 }

@@ -12,21 +12,41 @@ namespace Programmer.Game_Engen.PlaceObjects
         int GameX, GameY;
         Ithems ithem;
         
-        Place(int GameX, int GameY) : base()
+        public Place(int GameX, int GameY,Form2 f) : base()
         {
             this.GameX = GameX;
             this.GameY = GameY;
-            //switch(Form2)
+            //string SelctedText = f.
+            Console.WriteLine(f.Invoke(f.GetWidth).GetType());
+            switch((string)f.Invoke(f.GetComboBoxText))
+            {
+                case "Tree":
+                    ithem = new Tree(-1, "Tree", GameX, GameY, (int)(decimal)f.Invoke(f.GetWidth));
+                    break;
+                case "Store":
+                    ithem = new Store(-1, GameX, GameY, (int)(decimal)f.Invoke(f.GetWidth), (int)(decimal)f.Invoke(f.GetHeight),new InventoryIthem[0]);
+                    break;
+                default:
+                    Console.WriteLine("Dette objekt er eksistere ikke i nu");
+                    History.Pop();
+                    return;
+            }
+            DoIt();
         }
 
-        protected override void RedoThem()
+        protected override void DoIt()
         {
-            WorldCreader.Instans().objekter.Add(ithem);
+            lock(WorldCreader.Instans().objektLock)
+            {
+                WorldCreader.Instans().objekter.Add(ithem);
+            }
         }
 
         protected override void UndoThem()
         {
+            Console.WriteLine(WorldCreader.Instans().objekter.Count);
             WorldCreader.Instans().objekter.Remove(ithem);
+            Console.WriteLine(WorldCreader.Instans().objekter.Count);
         }
     }
 }

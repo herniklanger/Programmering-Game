@@ -4,11 +4,13 @@ using System;
 using System.Drawing;
 using System.Threading;
 using Programmer.Game.AppData;
+using Programmer.Game_Engen.PlaceObjects;
 
 namespace Programmer.Game_Engen
 {
     class WorldCreader : Engen
     {
+        public long[] keyStrouckReleace;
         private int MustStartX { get; set; }
         private int MustStartY { get; set; }
         private bool muving = false;
@@ -22,7 +24,6 @@ namespace Programmer.Game_Engen
             selectore = new Form2();
             selectore.Show();
             objekter.AddRange(DataBaseHandling.Iniselise().Load());
-            //objekter.Add(new Player(-1, "Henrik",0, 0, new int[0],new int[0]));
         }
         /// <summary>
         /// Get the Instans of the WorldCreader so there only can be one
@@ -50,22 +51,30 @@ namespace Programmer.Game_Engen
         /// <param name="g"></param>
         public override void Garphish(Graphics g)
         {
-            g.DrawRectangle(new Pen(Color.Black), 0, 0, 20, 20);
-            g.FillPolygon(new SolidBrush(Color.LightGreen), new Point[] { new Point(5, 5), new Point(5, 15), new Point(15, 10) });
-            selectore.DrawSelected(g, (Grid == 0 ? 0 : MouseX / Grid) - 1, (Grid == 0 ? 0 : MouseY / Grid) - 1, Grid);
+            
+            selectore.DrawSelected(g, (Grid == 0 ? 0 : MouseX / Grid)*Grid, (Grid == 0 ? 0 : MouseY / Grid) * Grid, Grid);
             lock (objektLock)
             {
+                Console.WriteLine(objekter.Count);
                 foreach (Ithems i in objekter)
                 {
                     i.Draw(g, ScreenX, ScreenY, Grid, Grid);
                 }
             }
+            g.FillRectangle(new SolidBrush(Color.Black), 0, 0, 20, 20);
+            g.FillPolygon(new SolidBrush(Color.LightGreen), new Point[] { new Point(5, 5), new Point(5, 15), new Point(15, 10) });
+            g.FillRectangle(new SolidBrush(Color.Black), 21, 0, 20, 20);
+            g.FillPolygon(new SolidBrush(Color.Blue), new Point[] { new Point(26, 3), new Point(24, 12), new Point(32, 10) });
+            g.DrawArc(new Pen(Color.Blue,2), 26, 5,10,10,60,-180);
+            g.FillRectangle(new SolidBrush(Color.Black), 42, 0, 20, 20);
+            g.FillPolygon(new SolidBrush(Color.Blue), new Point[] { new Point(52, 10), new Point(59, 11), new Point(55, 2) });
+            g.DrawArc(new Pen(Color.Blue, 2), 47, 5, 10, 10, 110, 210);
         }
         /// <summary>
-        /// tjeking the fealt emtines 
+        /// tjeking the fealt emtines and remember that the input value is the the gridt 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param GridtX="x"></param>
+        /// <param GridtY="y"></param>
         /// <returns></returns>
         public override Ithems IsThisfealtEmty(int x, int y)
         {
@@ -83,6 +92,7 @@ namespace Programmer.Game_Engen
         /// </summary>
         internal override void Game()
         {
+            keyStrouckReleace = new long[keyStrouck.Length];
             bool LeftClik = false;
             bool RithClik = false;
             double ofsetX = 0;
@@ -96,7 +106,8 @@ namespace Programmer.Game_Engen
                         MustStartX = MouseX;
                         MustStartY = MouseY;
                     }
-                    if ((MustStartX != -1 && ((MouseX - MustStartX) * (MouseX - MustStartX) + (MouseY - MustStartY)*(MouseY - MustStartY))>4) || muving)
+
+                    if ((MustStartX != -1 && ((MouseX - MustStartX) * (MouseX - MustStartX) + (MouseY - MustStartY) * (MouseY - MustStartY)) > 4) || muving)
                     {
                         if (!muving)
                         {
@@ -115,18 +126,77 @@ namespace Programmer.Game_Engen
                     {
 
                         MustStartX = -1;
-                        //knap
-                        if (MouseX >= 0 && MouseX < 20 && MouseY >= 0 && MouseY < 20)
+                        if (!muving)
                         {
-                            DataBaseHandling.Iniselise().Save(objekter.ToArray());
-                            selectore.Invoke(selectore.Clos);
-                            form.Game();
-                            instans = null;
-                            gameIsRinning = false;
+                            //knapper
+                            if (MouseX >= 0 && MouseX < 60 && MouseY >= 0 && MouseY < 20)
+                            {
+                                if (0 == MouseX / 20)
+                                {
+                                    selectore.Invoke(selectore.Clos);
+                                    DataBaseHandling.Iniselise().Save(objekter.ToArray());
+                                    form.Game();
+                                    instans = null;
+                                    gameIsRinning = false;
+                                } else if (1 == MouseX / 20)
+                                {
+                                    SuberPlace.Undo();
+                                } else
+                                {
+                                    SuberPlace.Redo();
+                                }
+                            } else
+                            {
+                                new Place(MouseX / Grid - ScreenX, MouseY / Grid - ScreenY, selectore);
+                            }
                         }
+                        muving = false;
                     }
                     LeftClik = mouseLeft;
+                    
+                }
+                lock(mouseRithLock)
+                {
+                    if (RithClik && !mouseRith)
+                    {
+                        Ithems ithem = IsThisfealtEmty(MouseX/Grid,MouseY/Grid);
+                        if(ithem != null)
+                        {
+                            new Edit(ithem);
+                        }
+                    }
                     RithClik = mouseRith;
+                }
+                //Keyboard buttons
+                lock(keyStrouckLock)
+                {
+                    if (!keyStrouck[90] && keyStrouckReleace[90] != 0)
+                    {
+                        if (keyStrouck[17])
+                        {
+                            SuberPlace.Undo();
+                        }
+                    }
+                    if (!keyStrouck[89] && keyStrouckReleace[89] != 0)
+                    {
+                        if (keyStrouck[17])
+                        {
+                            SuberPlace.Redo();
+                        }
+                    }
+                    for (int i = 0; i < keyStrouck.Length;i++)
+                    {
+                        if(keyStrouck[i])
+                        {
+                            if(keyStrouckReleace[i] == 0)
+                            {
+                                keyStrouckReleace[i] = DateTime.Now.Ticks;
+                            }
+                        }else
+                        {
+                            keyStrouckReleace[i] = 0;
+                        }
+                    }
                 }
                 Thread.Sleep(1);
             }
@@ -148,7 +218,7 @@ namespace Programmer.Game_Engen
                     }
                 }
             }
-            objekter.Add(i);
+            objekter.Add(ithem);
         }
     }
 }

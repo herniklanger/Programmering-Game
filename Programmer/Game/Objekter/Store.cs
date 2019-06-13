@@ -8,9 +8,9 @@ namespace Programmer.Game.Objekter
 {
     class Store : Ithems
     {
-        string[] stock;
+        InventoryIthem[] stock;
 
-        public Store(int IthemID, int LocationX, int LocationY, int width, int heigth, string[] stock) : base("Shop", IthemID, LocationX, LocationY, width, heigth)
+        public Store(int IthemID, int LocationX, int LocationY, int width, int heigth, InventoryIthem[] stock) : base("Shop", IthemID, LocationX, LocationY, width, heigth)
         {
             this.stock = stock;
         }
@@ -22,18 +22,9 @@ namespace Programmer.Game.Objekter
         {
             return new string[] { "IthemID", "X", "Y", "Width", "Heith", "stock" };
         }
-        public override Ithems Copy(int id = -1)
+        public override Ithems Copy(int id )
         {
-            string[] stock = null;
-            if(this.stock != null)
-            {
-                stock = new string[this.stock.Length-1];
-                for (int i = 0; i < this.stock.Length; i++)
-                {
-                    stock[i] = this.stock[i];
-                }
-            }
-            return new Store(id == -1 ? IthemID : id, X, Y,Width,Heith,stock);
+            return new Store(id == -1 ? IthemID : id, X, Y,Width,Heith, new InventoryIthem[0]);
         }
     }
 }

@@ -46,13 +46,18 @@ namespace Programmer
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-        //    Console.WriteLine(e.KeyValue + ", " + e.KeyCode);
-        //    Console.WriteLine("test");
-            game.keyStrouck[e.KeyValue] = true;
+            Console.WriteLine(e.KeyValue + ", " + e.KeyCode);
+            lock (game.keyStrouckLock)
+            {
+                game.keyStrouck[e.KeyValue] = true;
+            }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            game.keyStrouck[e.KeyValue] = false;
+            lock(game.keyStrouckLock)
+            {
+                game.keyStrouck[e.KeyValue] = false;
+            }
             #if DEBUG
             if (e.KeyValue == 27)
             {

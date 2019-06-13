@@ -7,8 +7,8 @@ namespace Programmer.Game.Objekter
     {
         public int IthemID { get; }
         private Image Person;
-        public int X { get; internal set; }
-        public int Y { get; internal set; }
+        public int X;// { get; internal set; }
+        public int Y;// { get; internal set; }
         public int Width { get; internal set; }
         public int Heith { get; internal set; }
         public String Name { get; set; }

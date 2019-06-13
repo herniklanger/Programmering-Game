@@ -32,9 +32,6 @@
             this.GameTime = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // GameTime
-            // 
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

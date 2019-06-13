@@ -167,13 +167,13 @@
 
         #endregion
 
-        public System.Windows.Forms.ComboBox Ithems;
+        private System.Windows.Forms.ComboBox Ithems;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar trackBar1;
-        public System.Windows.Forms.NumericUpDown Width;
-        public System.Windows.Forms.NumericUpDown Height;
+        private System.Windows.Forms.NumericUpDown Width;
+        private System.Windows.Forms.NumericUpDown Height;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
